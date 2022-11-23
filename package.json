@@ -5,9 +5,15 @@
   "private": true,
   "scripts": {
     "test": "jest",
+    "testWatch": "jest --watch",
     "build-prod": "webpack --mode --mode production",
     "build-dev": "webpack --watch --mode development",
     "lint": "eslint --ext .js --ignore-path .gitignore ."
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   },
   "repository": {
     "type": "git",
@@ -21,6 +27,7 @@
   },
   "homepage": "https://github.com/photonnn/battleship#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.20.2",
     "css-loader": "^6.7.2",
     "eslint": "^8.28.0",
     "eslint-config-airbnb-base": "^15.0.0",
