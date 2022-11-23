@@ -7,7 +7,7 @@ export function createShip(length) {
     hit() {
       this.hitCounter += 1;
     },
-    isSank() {
+    isSunk() {
       return this.hitCounter >= this.length;
     },
   };
