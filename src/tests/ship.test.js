@@ -1,5 +1,5 @@
-import * as ship from '../src/ship';
-import { globalConsts } from '../src/root';
+import * as ship from '../ship';
+import { globalConsts } from '../root';
 
 test('Ship with length and no hits is not sunk', () => {
   const shipOne = ship.createShip(Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH) + 1);
