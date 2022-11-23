@@ -8,7 +8,9 @@ export function createShip(length) {
       this.hitCounter += 1;
     },
     isSunk() {
-      return this.hitCounter >= this.length;
+      // although >= works better more time, if === doesn't work that
+      // must mean, there is a logic problem, which jest tests for
+      return this.hitCounter === this.length;
     },
   };
 }
