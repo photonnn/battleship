@@ -8,4 +8,6 @@
 export const globalConsts = {
   MINIMUM_SHIP_LENGTH: 1,
   MAXIMUM_SHIP_LENGTH: 4,
+  TEST_BOARD_SIZE: 4,
+  SHIP_DIRECTION: 'x',
 };
