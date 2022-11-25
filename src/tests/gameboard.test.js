@@ -2,7 +2,7 @@ import * as gameboard from '../gameboard';
 import * as ship from '../ship';
 import { globalConsts } from '../root';
 
-describe('Gameboard factory function', () => {
+describe('Gameboard ', () => {
   let testBoard;
   let testShip;
 

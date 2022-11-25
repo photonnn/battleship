@@ -7,7 +7,7 @@ describe('Player factory function', () => {
     botOne = player.createPlayer('AI');
   });
 
-  test("Bot doesn't do anything", () => {
+  test('Bot makes a legal random move', () => {
     expect(botOne);
   });
 });
