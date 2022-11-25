@@ -72,6 +72,7 @@ export function createGameboard(width, height) {
     } else {
       return 'illegal';
     }
+    return 'legal';
   }
 
   function receiveAttack(coordinates) {
