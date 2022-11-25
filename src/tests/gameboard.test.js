@@ -39,4 +39,14 @@ describe('Gameboard factory function', () => {
       [0, 0, 0, 0],
     ]);
   });
+
+  test('An attack on blank block changes the value of the block to 1', () => {
+    testBoard.receiveAttack([0, 0]);
+    expect(testBoard.board).toEqual([
+      [1, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ]);
+  });
 });
