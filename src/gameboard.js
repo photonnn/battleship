@@ -69,6 +69,8 @@ export function createGameboard(width, height) {
 
         shipLength -= 1;
       }
+    } else {
+      return 'illegal';
     }
   }
 
