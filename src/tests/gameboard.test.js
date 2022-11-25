@@ -64,4 +64,8 @@ describe('Gameboard factory function', () => {
     ]);
     testBoard.resetBoard();
   });
+
+  test('An empty board has no ships', () => {
+    expect(testBoard.doesBoardHaveShips()).toBeFalsy();
+  });
 });
