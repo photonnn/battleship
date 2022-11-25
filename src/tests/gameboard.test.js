@@ -21,6 +21,7 @@ describe('Gameboard factory function', () => {
 
   test('places a ship to suitable coordinates', () => {
     testBoard.place(testShip, [0, 0], globalConsts.SHIP_DIRECTION);
+
     expect(testBoard.board).toEqual([
       [testShip, testShip, testShip, 0],
       [0, 0, 0, 0],
@@ -30,14 +31,15 @@ describe('Gameboard factory function', () => {
     testBoard.resetBoard();
   });
 
-  test("doesn't place a ship to unsuitable coordinates", () => {
-    testBoard.place(testShip, [3, 0], 'y');
+  test("return string:illegal if ship can't be placed", () => {
+    const output = testBoard.place(testShip, [3, 0], 'y');
     expect(testBoard.board).toEqual([
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ]);
+    expect(output).toBe('illegal');
   });
 
   test('An attack on blank block changes the value of the block to 1', () => {
