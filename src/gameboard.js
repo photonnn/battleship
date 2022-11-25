@@ -92,9 +92,26 @@ export function createGameboard(width, height) {
     return null;
   }
 
+  function doesBoardHaveShips() {
+    /* Checks if there are ships remaining and returns true if there are */
+    const arr = this.board;
+    const legalOutcomes = [0, 1, 'sunk'];
+
+    for (let i = 0; i < arr.length; i += 1) {
+      for (let j = 0; j < arr[i].length; j += 1) {
+        if (!legalOutcomes.includes(arr[i][j])) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   return {
     board: Array(width).fill(0).map(() => Array(height).fill(0)),
     missedAttacks,
+    doesBoardHaveShips,
     resetBoard,
     place,
     receiveAttack,
