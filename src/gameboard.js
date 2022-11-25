@@ -112,6 +112,8 @@ export function createGameboard(width, height) {
   }
 
   return {
+    width,
+    height,
     board: Array(width).fill(0).map(() => Array(height).fill(0)),
     missedAttacks,
     doesBoardHaveShips,
