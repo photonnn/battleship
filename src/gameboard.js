@@ -40,6 +40,7 @@ export function createGameboard(width, height) {
       width -> board width
       height -> board height
   */
+  const missedAttacks = 0;
 
   function resetBoard() {
     this.board = Array(width).fill(0).map(() => Array(height).fill(0));
@@ -77,10 +78,12 @@ export function createGameboard(width, height) {
         Args:
         coordinates -> String -> [x, y]
       */
-    if (this.board[coordinates[0]][coordinates[1]] === 0
-          || this.board[coordinates[0][coordinates[1] === 1]]) {
+    if (this.board[coordinates[0]][coordinates[1]] === 0) {
       // 0 denotes a blank block, 1 denotes an already attacked block
       this.board[coordinates[0]][coordinates[1]] = 1;
+      this.missedAttacks += 1;
+      return null;
+    } if (this.board[coordinates[0][coordinates[1] === 1]]) {
       return null;
     }
     const ship = this.board[coordinates[0]][coordinates[1]];
@@ -91,6 +94,7 @@ export function createGameboard(width, height) {
 
   return {
     board: Array(width).fill(0).map(() => Array(height).fill(0)),
+    missedAttacks,
     resetBoard,
     place,
     receiveAttack,
