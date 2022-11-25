@@ -27,12 +27,13 @@ describe('Gameboard factory function', () => {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ]);
+    testBoard.resetBoard();
   });
 
   test("doesn't place a ship to unsuitable coordinates", () => {
     testBoard.place(testShip, [3, 0], 'y');
     expect(testBoard.board).toEqual([
-      [testShip, testShip, testShip, 0], // IMPORTANT: this is left from previous test, clean it up!
+      [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],

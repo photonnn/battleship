@@ -16,7 +16,7 @@ function isSuitable(board, ship, coordinates, direction) {
   const y = coordinates[1];
 
   while (shipLength > 0) {
-    if ((board[x].length - 1) <= (x + i) || (board[x][y].length - 1) <= (y + j)
+    if ((board[x].length - 1) <= (x + i) || (board[x][y].length - 1) <= (y + j) // RETHINK THIS
     || board[x + j][y + i] !== 0) {
       return false;
     }
@@ -43,6 +43,9 @@ export function createGameboard(width, height) {
 
   return {
     board: Array(width).fill(0).map(() => Array(height).fill(0)),
+    resetBoard() {
+      this.board = Array(width).fill(0).map(() => Array(height).fill(0));
+    },
     place(ship, coordinates, direction) {
       /* Places a ship on given coordinates in given direction if it is suitable
 
