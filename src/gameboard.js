@@ -85,7 +85,7 @@ export function createGameboard(width, height) {
     }
     const ship = this.board[coordinates[0]][coordinates[1]];
     ship.hit();
-    this.board[coordinates[0]][coordinates[1]] = 1; // CHANGE LATER TO SOMETHING ELSE
+    this.board[coordinates[0]][coordinates[1]] = 'sunk';
     return null;
   }
 

@@ -20,7 +20,7 @@ describe('Gameboard factory function', () => {
   });
 
   test('places a ship to suitable coordinates', () => {
-    testBoard.place(testShip, [0, 0], 'x');
+    testBoard.place(testShip, [0, 0], globalConsts.SHIP_DIRECTION);
     expect(testBoard.board).toEqual([
       [testShip, testShip, testShip, 0],
       [0, 0, 0, 0],
@@ -48,5 +48,20 @@ describe('Gameboard factory function', () => {
       [0, 0, 0, 0],
       [0, 0, 0, 0],
     ]);
+    testBoard.resetBoard();
+  });
+
+  test('A ship of length 1 is sunk and block changes value to "sunk"', () => {
+    const smallShip = ship.createShip(1);
+    testBoard.place(smallShip, [0, 0], globalConsts.SHIP_DIRECTION);
+    testBoard.receiveAttack([0, 0]);
+    expect(smallShip.isSunk).toBeTruthy();
+    expect(testBoard.board).toEqual([
+      ['sunk', 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ]);
+    testBoard.resetBoard();
   });
 });
