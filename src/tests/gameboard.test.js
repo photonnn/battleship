@@ -33,7 +33,8 @@ describe('Gameboard ', () => {
   });
 
   test("return string:illegal if ship can't be placed", () => {
-    const output = testBoard.place(testShip, [3, 0], 'y');
+    // coordinates are [x, y]
+    const output = testBoard.place(testShip, [0, 3], 'y');
     expect(testBoard.board).toEqual([
       [0, 0, 0, 0],
       [0, 0, 0, 0],
