@@ -1,4 +1,4 @@
-import { globalConsts } from './root';
+import { isSuitable } from './gameboard';
 
 // eslint-disable-next-line import/prefer-default-export
 export function createPlayer(id) {
@@ -8,34 +8,50 @@ export function createPlayer(id) {
     id -> String -> 'User' or 'AI'
   */
 
-  function getLegalMoves(board) {
+  function getLegalMoves(board, ship, direction) {
     /* Return an array filled with coordinates of legal moves
 
       Args:
-      board -> Object -> A gameboard, see gameboard.js
+      board -> Array -> 2D gameboard, see gameboard.js
     */
+
     const legalMoves = [];
     for (let y = 0; y < board.length; y += 1) {
-      for (let x = 0; x < board[x].length; x += 1) {
-        if (board[y][x] === 0) {
-          legalMoves.push([y, x]);
+      for (let x = 0; x < board[y].length; x += 1) {
+        if (isSuitable(board, ship, [x, y], direction)) {
+          legalMoves.push([x, y]);
         }
       }
     }
     return legalMoves;
   }
 
-  function chooseAIMoveCoordinates() {
+  function chooseAIMoveCoordinates(legalMoves) {
     /* Choose a random coordinats for an AI based on length of array of legal moves */
-    const legalMoves = getLegalMoves();
     const maxValue = legalMoves.length - 1;
     return legalMoves[Math.floor(Math.random() * (maxValue + 1))];
   }
 
-  function makeAIMove(board, ship) {
-    /* Make a random move for an AI */
-    const moveCoordinates = chooseAIMoveCoordinates();
-    board.place(ship, moveCoordinates, globalConsts.SHIP_DIRECTION);
+  function chooseAIDirection() {
+    /* Choose the direction based on a coin toss */
+    const val = Math.floor(Math.random() * 2);
+    if (val) {
+      return 'x';
+    }
+    return 'y';
+  }
+
+  function makeAIMove(gameboard, ship) {
+    /* Make a random move for an AI
+
+      Args:
+      board -> Object
+      ship -> Object
+    */
+    const direction = chooseAIDirection();
+    const legalMoves = getLegalMoves(gameboard.board, ship, direction);
+    const moveCoordinates = chooseAIMoveCoordinates(legalMoves);
+    gameboard.place(ship, moveCoordinates, direction);
   }
 
   return {
