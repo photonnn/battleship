@@ -16,4 +16,7 @@ import './style.css';
           and the state of the board.
           # Next on the menu.
 
+  Figure out a way to make jest print the board better. Note that this will no longer be
+  necessary when the DOM and web page is done.
+
 */
