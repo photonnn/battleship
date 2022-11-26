@@ -1,4 +1,4 @@
-function isSuitable(board, ship, coordinates, direction) {
+export function isSuitable(board, ship, coordinates, direction) {
   /*  Checks if it is legal for a user to place a ship on
       specified coordinates and in a specified direction
 
@@ -16,8 +16,9 @@ function isSuitable(board, ship, coordinates, direction) {
   const y = coordinates[1];
 
   while (shipLength > 0) {
-    if ((board[x].length - 1) < (x + i) || (board[x][y].length - 1) < (y + j) // RETHINK THIS
-    || board[x + j][y + i] !== 0) {
+    // The first two conditions are to allow the 3rd to not throw an error!
+    if ((board.length - 1) < (y + i) || (board[y].length - 1) < (x + j) // RETHINK THIS
+    || board[y + i][x + j] !== 0) {
       return false;
     }
 
@@ -58,8 +59,12 @@ export function createGameboard(width, height) {
       let shipLength = ship.length;
       let i = 0;
       let j = 0;
+
+      const x = coordinates[0];
+      const y = coordinates[1];
+
       while (shipLength > 0) {
-        this.board[coordinates[0] + i][coordinates[1] + j] = ship;
+        this.board[y + i][x + j] = ship;
 
         if (direction === 'x') {
           j += 1;
@@ -81,17 +86,22 @@ export function createGameboard(width, height) {
         Args:
         coordinates -> String -> [x, y]
       */
-    if (this.board[coordinates[0]][coordinates[1]] === 0) {
+
+    const x = coordinates[0];
+    const y = coordinates[1];
+
+    if (this.board[y][x] === 0) {
       // 0 denotes a blank block, 1 denotes an already attacked block
-      this.board[coordinates[0]][coordinates[1]] = 1;
+      this.board[y][x] = 1;
       this.missedAttacks += 1;
       return null;
-    } if (this.board[coordinates[0][coordinates[1] === 1]]) {
+    }
+    if (this.board[y][x] === 1) {
       return null;
     }
-    const ship = this.board[coordinates[0]][coordinates[1]];
+    const ship = this.board[y][x];
     ship.hit();
-    this.board[coordinates[0]][coordinates[1]] = 'sunk';
+    this.board[y][x] = 'sunk';
     return null;
   }
 
