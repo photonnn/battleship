@@ -41,8 +41,8 @@ export function createPlayer(id) {
     return 'y';
   }
 
-  function makeAIMove(gameboard, ship) {
-    /* Make a random move for an AI
+  function placeAIShip(gameboard, ship) {
+    /* Make AI place a ship on a random location that is legal
 
       Args:
       board -> Object
@@ -56,6 +56,6 @@ export function createPlayer(id) {
 
   return {
     id,
-    makeAIMove,
+    placeAIShip,
   };
 }

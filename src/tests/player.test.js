@@ -18,7 +18,7 @@ describe('Player factory function', () => {
   });
 
   test.only('Bot makes a legal random move', () => {
-    expect(botOne.makeAIMove(testBoard, testShipOne)).not.toEqual([
+    expect(botOne.placeAIShip(testBoard, testShipOne)).not.toEqual([
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
