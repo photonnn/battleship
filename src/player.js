@@ -18,8 +18,8 @@ export function createPlayer(id) {
     const legalMoves = [];
     for (let y = 0; y < board.length; y += 1) {
       for (let x = 0; x < board[y].length; x += 1) {
-        if (isSuitable(board, ship, [x, y], direction)) {
-          legalMoves.push([x, y]);
+        if (isSuitable(board, ship, { x, y }, direction)) {
+          legalMoves.push({ x, y });
         }
       }
     }

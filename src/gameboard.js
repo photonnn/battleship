@@ -5,15 +5,15 @@ export function isSuitable(board, ship, coordinates, direction) {
     Args:
     board -> Array_-> 2D
     ship -> Object
-    coordinates -> Array -> [x, y]
+    coordinates -> Object -> x and y property
     direction -> String -> 'x' or 'y'
   */
   let i = 0;
   let j = 0;
   let shipLength = ship.length;
 
-  const x = coordinates[0];
-  const y = coordinates[1];
+  const { x } = coordinates;
+  const { y } = coordinates;
 
   while (shipLength > 0) {
     // The first two conditions are to allow the 3rd to not throw an error!
@@ -33,7 +33,6 @@ export function isSuitable(board, ship, coordinates, direction) {
   return true;
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export function createGameboard(width, height) {
   /*  Factory function for the gameboard object
 
@@ -52,7 +51,7 @@ export function createGameboard(width, height) {
 
       Args:
       ship -> Object
-      coordinates -> Array -> [x, y]
+      coordinates -> Object -> x and y property
       direction -> String -> 'X' or 'Y'
     */
     if (isSuitable(this.board, ship, coordinates, direction)) {
@@ -60,8 +59,8 @@ export function createGameboard(width, height) {
       let i = 0;
       let j = 0;
 
-      const x = coordinates[0];
-      const y = coordinates[1];
+      const { x } = coordinates;
+      const { y } = coordinates;
 
       while (shipLength > 0) {
         this.board[y + i][x + j] = ship;
@@ -84,11 +83,11 @@ export function createGameboard(width, height) {
     /* Determine if an attack hit a ship and if so, then send hit to correct ship
 
         Args:
-        coordinates -> String -> [x, y]
+        coordinates -> Object -> x and y property
       */
 
-    const x = coordinates[0];
-    const y = coordinates[1];
+    const { x } = coordinates;
+    const { y } = coordinates;
 
     if (this.board[y][x] === 0) {
       // 0 denotes a blank block, 1 denotes an already attacked block
