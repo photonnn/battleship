@@ -95,7 +95,8 @@ export function createGameboard(width, height) {
       this.missedAttacks += 1;
       return null;
     }
-    if (this.board[y][x] === 1) {
+    if (this.board[y][x] === 1 || this.board[y][x] === 'sunk') {
+      // This occurs when a move is repeated
       return null;
     }
     const ship = this.board[y][x];
