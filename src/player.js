@@ -54,8 +54,30 @@ export function createPlayer(id) {
     gameboard.place(ship, moveCoordinates, direction);
   }
 
+  function makeRandomAIAttack(gameboard) {
+    /* Generate a random attack based which is different from the ones already attempted
+
+      Args:
+      gameboard -> Object
+    */
+    let keepRunning = true;
+    let randomCoordinates;
+    while (keepRunning) {
+      randomCoordinates = {
+        x: Math.floor(Math.random() * gameboard.width),
+        y: Math.floor(Math.random() * gameboard.width),
+      };
+      if (!this.attemptedAttacks.includes(randomCoordinates)) {
+        keepRunning = false;
+      }
+    }
+    return randomCoordinates;
+  }
+
   return {
     id,
     placeAIShip,
+    attemptedAttacks: [],
+    makeRandomAIAttack,
   };
 }
