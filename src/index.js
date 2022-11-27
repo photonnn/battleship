@@ -1,4 +1,7 @@
 import './style.css';
+import { gameLoop } from './game';
+
+gameLoop();
 
 /*
   TO DO LIST:
