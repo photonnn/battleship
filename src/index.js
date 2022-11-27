@@ -23,4 +23,11 @@ gameLoop();
   Figure out a way to make jest print the board better. Note that this will no longer be
   necessary when the DOM and web page is done.
 
+  Improve the random AI attack function to generate random numbers only from a pool. This way
+  there is no longer a need for the loop and code repetition.
+
+  Deal with the if statement dealing with attack repetition in the receiveAttack function. AI
+  should not be able to make a repetition, so maybe add a test for that though it shouldn't happen
+  because legalMoves is tested.
+
 */
