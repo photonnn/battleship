@@ -7,7 +7,7 @@ export function gameLoop() {
   const user = player.createPlayer('user');
   const bot = player.createPlayer('bot');
 
-  const boardSize = 5;
+  const boardSize = 40;
 
   const userBoard = game.createGameboard(boardSize, boardSize);
   const botBoard = game.createGameboard(boardSize, boardSize);
