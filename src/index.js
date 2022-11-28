@@ -1,7 +1,9 @@
 import './style.css';
 import { gameLoop } from './game';
+import { fillBoards } from './dom';
 
 gameLoop();
+fillBoards();
 
 /*
   TO DO LIST:
