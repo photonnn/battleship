@@ -53,9 +53,13 @@ header {
 }
 
 .board {
-  width: 500px; /*  20 * 30 */
+  width: 500px; /*  20 * 25 */
   height: 500px;
   background-color: azure;
+
+  display: grid;
+  grid-template-columns: repeat(25, 1fr);
+  grid-template-rows: repeat(25, 1fr);
 }
 
 .bot {
@@ -86,4 +90,10 @@ header .score {
 header .score p {
   width: 50px;
   text-align: center;
+}
+
+
+.boardBlock {
+  background-color: red;
+  border: black solid 0.1px;
 }
