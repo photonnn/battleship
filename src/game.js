@@ -20,7 +20,7 @@ export function gameLoop() {
 
   let i = 0;
 
-  while (keepRunning && i < 1000) {
+  while (keepRunning && i < 10000) {
     // players take turns making moves
     user.makeAIMove(botBoard);
 

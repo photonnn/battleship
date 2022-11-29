@@ -1,5 +1,3 @@
-import { render } from './dom';
-
 export function isSuitable(board, ship, coordinates, direction) {
   /*  Checks if it is legal for a user to place a ship on
       specified coordinates and in a specified direction
