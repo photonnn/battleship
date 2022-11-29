@@ -2,6 +2,7 @@
 export function createShip(length) {
   /* A factory function for the ship object */
   return {
+    id,
     length,
     hitCounter: 0,
     hit() {
