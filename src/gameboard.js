@@ -1,3 +1,5 @@
+import { render } from './dom';
+
 export function isSuitable(board, ship, coordinates, direction) {
   /*  Checks if it is legal for a user to place a ship on
       specified coordinates and in a specified direction
@@ -79,29 +81,33 @@ export function createGameboard(width, height) {
     return 'legal';
   }
 
-  function receiveAttack(coordinates) {
+  function receiveAttack(coordinates, id) {
     /* Determine if an attack hit a ship and if so, then send hit to correct ship
 
-        Args:
-        coordinates -> Object -> x and y property
-      */
+      Args:
+      coordinates -> Object -> x and y property
+    */
 
     const { x } = coordinates;
     const { y } = coordinates;
 
+    // Attack misses
     if (this.board[y][x] === 0) {
-      // 0 denotes a blank block, 1 denotes an already attacked block
       this.board[y][x] = 1;
       this.missedAttacks += 1;
       return null;
     }
+    // Attack is repeated, relevant to user only
     if (this.board[y][x] === 1 || this.board[y][x] === 'sunk') {
-      // This occurs when a move is repeated, should only concern user
       return null;
     }
+
+    // Attack succesfully hits a ship
     const ship = this.board[y][x];
     ship.hit();
     this.board[y][x] = 'sunk';
+    const block = document.querySelector(`.${id}_id_${y}_${x}`);
+    block.style.backgroundColor = 'black';
     return null;
   }
 
