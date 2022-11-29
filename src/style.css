@@ -58,8 +58,8 @@ header {
   background-color: azure;
 
   display: grid;
-  grid-template-columns: repeat(25, 1fr);
-  grid-template-rows: repeat(25, 1fr);
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
 }
 
 .bot {
@@ -94,6 +94,9 @@ header .score p {
 
 
 .boardBlock {
-  background-color: red;
   border: black solid 0.1px;
+}
+
+.boardBlock:hover {
+  background-color: rgba(0, 0, 0, 0.3);
 }
