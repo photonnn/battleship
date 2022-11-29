@@ -98,7 +98,7 @@ export function createPlayer(id) {
     /* Combine functions to:
       1. Generate attack coordinates
       2. Attack the selected coordinates
-      3. Save the attack
+      3. Save the attack, to prevent repetition
       4. Render
 
       Args:
