@@ -2,8 +2,8 @@ import './style.css';
 import { gameLoop } from './game';
 import { fillBoards } from './dom';
 
-gameLoop();
 fillBoards();
+gameLoop();
 
 /*
   TO DO LIST:
@@ -31,5 +31,10 @@ fillBoards();
   Deal with the if statement dealing with attack repetition in the receiveAttack function. AI
   should not be able to make a repetition, so maybe add a test for that though it shouldn't happen
   because legalMoves is tested.
+
+  Change named of import for ships. It is often currently the case that the name of the objects is
+  ship as well as name of the macro.
+  Change name of all gameboard factory function object to gameboard and the array to just board.
+  Also use opponentGameboard and selfGameboard to denote who it belongs to.
 
 */
