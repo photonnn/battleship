@@ -1,26 +1,27 @@
 import * as player from './player';
 import * as game from './gameboard';
 import * as ship from './ship';
+import { render } from './dom';
 
 // eslint-disable-next-line import/prefer-default-export
 export function gameLoop() {
   const user = player.createPlayer('user');
   const bot = player.createPlayer('bot');
 
-  const boardSize = 40;
+  const boardSize = 20;
 
   const userBoard = game.createGameboard(boardSize, boardSize);
   const botBoard = game.createGameboard(boardSize, boardSize);
 
   let keepRunning = true;
   // populate the board, for now statically
-  const playerShipOne = ship.createShip(3);
-  user.placeAIShip(botBoard, playerShipOne);
-
-  const botShipOne = ship.createShip(3);
-  bot.placeAIShip(userBoard, botShipOne);
+  for (let n = 0; n < 10; n += 1) {
+    user.makeAIPreMove(botBoard);
+    bot.makeAIPreMove(userBoard);
+  }
 
   let i = 0;
+
   while (keepRunning && i < 1000) {
     // players take turns making moves
     const userMoveCoordinates = user.makeRandomAIAttack(botBoard);
