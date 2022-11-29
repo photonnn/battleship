@@ -1,7 +1,5 @@
 import * as player from './player';
 import * as game from './gameboard';
-import * as ship from './ship';
-import { render } from './dom';
 
 // eslint-disable-next-line import/prefer-default-export
 export function gameLoop() {
@@ -24,18 +22,14 @@ export function gameLoop() {
 
   while (keepRunning && i < 1000) {
     // players take turns making moves
-    const userMoveCoordinates = user.makeRandomAIAttack(botBoard);
-    botBoard.receiveAttack(userMoveCoordinates);
-    user.attemptedAttacks.push(userMoveCoordinates);
+    user.makeAIMove(botBoard);
 
     if (!botBoard.doesBoardHaveShips()) {
       console.log('User wins!');
       keepRunning = false;
     }
 
-    const botMoveCoordinates = bot.makeRandomAIAttack(userBoard);
-    userBoard.receiveAttack(botMoveCoordinates);
-    bot.attemptedAttacks.push(botMoveCoordinates);
+    bot.makeAIMove(userBoard);
 
     if (!userBoard.doesBoardHaveShips()) {
       console.log('Bot wins');

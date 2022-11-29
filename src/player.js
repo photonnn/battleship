@@ -94,11 +94,29 @@ export function createPlayer(id) {
     render(opponentGameboard.board, this.id);
   }
 
+  function makeAIMove(opponentGameboard) {
+    /* Combine functions to:
+      1. Generate attack coordinates
+      2. Attack the selected coordinates
+      3. Save the attack
+      4. Render
+
+      Args:
+      opponentGameboard -> Object -> Gameboard factory fn
+    */
+
+    const userMoveCoordinates = this.makeRandomAIAttack(opponentGameboard);
+    opponentGameboard.receiveAttack(userMoveCoordinates, this.id);
+    this.attemptedAttacks.push(userMoveCoordinates);
+    render(opponentGameboard, this.id);
+  }
+
   return {
     id,
     placeAIShip,
     attemptedAttacks: [],
     makeRandomAIAttack,
     makeAIPreMove,
+    makeAIMove,
   };
 }
