@@ -1,6 +1,5 @@
 import { globalConsts } from './root';
 
-// eslint-disable-next-line import/prefer-default-export
 export function fillBoards() {
   /* Fill the board with necessary amount of blocks */
 
@@ -48,4 +47,33 @@ export function displayWinner(msg) {
 
   const winnerDivParagraph = document.querySelector('.winner p');
   winnerDivParagraph.textContent = msg;
+}
+
+function determineHtmlClass(player) {
+  /* Given the player object determine which html class to use
+    Utility function for displayShips function
+
+    Args:
+    player -> Object -> Player factory fn
+
+    Returns:
+    htmlClass -> Str -> see above
+    */
+  let htmlClass;
+  if (player.id === 'bot') {
+    htmlClass = 'botShips';
+  } else {
+    htmlClass = 'userShips';
+  }
+  return htmlClass;
+}
+
+export function displayShips(player, playerShips) {
+  /* Display the ships below the game board */
+  const htmlClass = determineHtmlClass(player);
+
+  const shipsDiv = document.querySelector(`.${htmlClass}`);
+  for (let i = 0; i < playerShips.length; i += 1) {
+    // create a ship node and add it to ships div
+  }
 }

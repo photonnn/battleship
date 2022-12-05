@@ -85,6 +85,9 @@ export function createPlayer(id) {
 
       Args:
       gameboard -> Object -> Gameboard factory function object
+
+      Returns:
+      newShip -> Object -> Used as an utility for displayShips function
     */
 
     const shipLength = Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH)
@@ -92,6 +95,7 @@ export function createPlayer(id) {
     const newShip = createShip(shipLength);
     this.placeAIShip(opponentGameboard, newShip);
     render(opponentGameboard.board, this.id);
+    return newShip;
   }
 
   function makeAIMove(opponentGameboard) {

@@ -1,6 +1,6 @@
 import * as player from './player';
 import * as game from './gameboard';
-import { displayWinner } from './dom';
+import { displayShips, displayWinner } from './dom';
 
 // eslint-disable-next-line import/prefer-default-export
 export function gameLoop() {
@@ -13,11 +13,18 @@ export function gameLoop() {
   const botGameboard = game.createGameboard(boardSize, boardSize);
 
   let keepRunning = true;
-  // populate the board, for now statically
+  const userShips = [];
+  const botShips = [];
+
+  // populate the board
   for (let n = 0; n < 10; n += 1) {
-    user.makeAIPreMove(botGameboard);
-    bot.makeAIPreMove(userGameboard);
+    userShips.push(user.makeAIPreMove(botGameboard));
+    botShips.push(bot.makeAIPreMove(userGameboard));
   }
+
+  // DISPLAY THE SHIPS HERE
+  displayShips(user, userShips);
+  displayShips(bot, botShips);
 
   let i = 0; // move counter
 
