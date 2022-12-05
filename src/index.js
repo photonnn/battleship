@@ -22,8 +22,7 @@ gameLoop();
           and the state of the board.
           # Next on the menu.
 
-  Figure out a way to make jest print the board better. Note that this will no longer be
-  necessary when the DOM and web page is done.
+  No longer necessary: Figure out a way to make jest print the board better.
 
   Improve the random AI attack function to generate random numbers only from a pool. This way
   there is no longer a need for the loop and code repetition.
@@ -32,9 +31,10 @@ gameLoop();
   should not be able to make a repetition, so maybe add a test for that though it shouldn't happen
   because legalMoves is tested.
 
-  Change named of import for ships. It is often currently the case that the name of the objects is
-  ship as well as name of the macro.
-  Change name of all gameboard factory function object to gameboard and the array to just board.
+  Done: Change named of import for ships. It is often currently the case that the name of the
+          objects is ship as well as name of the macro.
+  Done: Change name of all gameboard factory function object to gameboard and the array to just
+          board.
   Also use opponentGameboard and selfGameboard to denote who it belongs to.
 
 */
