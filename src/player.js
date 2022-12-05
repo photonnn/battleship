@@ -61,7 +61,7 @@ export function createPlayer(id) {
     /* Generate a random attack based which is different from the ones already attempted
 
       Args:
-      gameboard -> Object
+      gameboard -> Object -> Gameboard factory fn
     */
     let keepRunning = true;
     let randomCoordinates;

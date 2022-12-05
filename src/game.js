@@ -8,30 +8,30 @@ export function gameLoop() {
 
   const boardSize = 20;
 
-  const userBoard = game.createGameboard(boardSize, boardSize);
-  const botBoard = game.createGameboard(boardSize, boardSize);
+  const userGameboard = game.createGameboard(boardSize, boardSize);
+  const botGameboard = game.createGameboard(boardSize, boardSize);
 
   let keepRunning = true;
   // populate the board, for now statically
   for (let n = 0; n < 10; n += 1) {
-    user.makeAIPreMove(botBoard);
-    bot.makeAIPreMove(userBoard);
+    user.makeAIPreMove(botGameboard);
+    bot.makeAIPreMove(userGameboard);
   }
 
   let i = 0;
 
   while (keepRunning && i < 10000) {
     // players take turns making moves
-    user.makeAIMove(botBoard);
+    user.makeAIMove(botGameboard);
 
-    if (!botBoard.doesBoardHaveShips()) {
+    if (!botGameboard.doesBoardHaveShips()) {
       console.log('User wins!');
       keepRunning = false;
     }
 
-    bot.makeAIMove(userBoard);
+    bot.makeAIMove(userGameboard);
 
-    if (!userBoard.doesBoardHaveShips()) {
+    if (!userGameboard.doesBoardHaveShips()) {
       console.log('Bot wins');
       keepRunning = false;
     }
@@ -39,7 +39,7 @@ export function gameLoop() {
     i += 1;
   }
   // Game end we clean up
-  userBoard.resetBoard();
-  botBoard.resetBoard();
+  userGameboard.resetBoard();
+  botGameboard.resetBoard();
   console.log(i);
 }

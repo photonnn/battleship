@@ -5,12 +5,12 @@ import { globalConsts } from '../root';
 
 describe('Player factory function', () => {
   let botOne;
-  let testBoard;
+  let testGameboard;
   let testShipOne;
 
   beforeAll(() => {
     botOne = player.createPlayer('AI');
-    testBoard = gameboard.createGameboard(
+    testGameboard = gameboard.createGameboard(
       globalConsts.TEST_BOARD_SIZE,
       globalConsts.TEST_BOARD_SIZE,
     );
@@ -18,7 +18,7 @@ describe('Player factory function', () => {
   });
 
   test.only('Bot makes a legal random move', () => {
-    expect(botOne.placeAIShip(testBoard, testShipOne)).not.toEqual([
+    expect(botOne.placeAIShip(testGameboard, testShipOne)).not.toEqual([
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
