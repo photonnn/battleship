@@ -1,11 +1,11 @@
-import * as ship from '../ship';
+import { createShip } from '../ship';
 import { globalConsts } from '../root';
 
 describe('Ship factory function', () => {
   let shipOne;
 
   beforeAll(() => {
-    shipOne = ship.createShip(Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH) + 1);
+    shipOne = createShip(Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH) + 1);
   });
 
   test('Ship with length and no hits is not sunk', () => {
