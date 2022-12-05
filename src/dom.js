@@ -38,3 +38,14 @@ export function render(board, id) {
     }
   }
 }
+
+export function displayWinner(msg) {
+  /* Renders the name of the winner at the top of the web page
+
+    Args:
+    msg -> String -> A messega to display
+  */
+
+  const winnerDivParagraph = document.querySelector('.winner p');
+  winnerDivParagraph.textContent = msg;
+}

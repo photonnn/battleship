@@ -1,5 +1,6 @@
 import * as player from './player';
 import * as game from './gameboard';
+import { displayWinner } from './dom';
 
 // eslint-disable-next-line import/prefer-default-export
 export function gameLoop() {
@@ -18,21 +19,21 @@ export function gameLoop() {
     bot.makeAIPreMove(userGameboard);
   }
 
-  let i = 0;
+  let i = 0; // move counter
 
   while (keepRunning && i < 10000) {
     // players take turns making moves
     user.makeAIMove(botGameboard);
 
     if (!botGameboard.doesBoardHaveShips()) {
-      console.log('User wins!');
+      displayWinner('User wins!');
       keepRunning = false;
     }
 
     bot.makeAIMove(userGameboard);
 
     if (!userGameboard.doesBoardHaveShips()) {
-      console.log('Bot wins');
+      displayWinner('Bot wins');
       keepRunning = false;
     }
 
@@ -41,5 +42,4 @@ export function gameLoop() {
   // Game end we clean up
   userGameboard.resetBoard();
   botGameboard.resetBoard();
-  console.log(i);
 }

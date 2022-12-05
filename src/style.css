@@ -70,26 +70,33 @@ header {
 
 header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 
   font-size: 3rem;
   border-bottom: black solid 1px;
 }
 
-header .score {
+header p {
+  margin-right: 350px;
+  margin-left: 350px;
+}
+
+header .winner {
   position: fixed;
+  /*
   display: flex;
   justify-content: center;
   width: 300px;
   left: 50%;
-  margin-left: -150px; /* negative half of width*/
-  flex-direction: row;
+  margin-left: -150px; /* negative half of width
+  flex-direction: row; */
 }
 
-header .score p {
-  width: 50px;
-  text-align: center;
+header .winner p {
+  color: rgb(173, 159, 77);
+  padding: 5px 25px;
+  border: 2.5px rgb(206, 181, 38) dotted;
 }
 
 
