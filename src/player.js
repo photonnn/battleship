@@ -98,6 +98,7 @@ export function createPlayer(id) {
     /* Combine functions to:
       1. Generate attack coordinates
       2. Attack the selected coordinates
+      2.5 Change the dom of the block
       3. Save the attack, to prevent repetition
       4. Render
 
@@ -106,7 +107,17 @@ export function createPlayer(id) {
     */
 
     const userMoveCoordinates = this.makeRandomAIAttack(opponentGameboard);
-    opponentGameboard.receiveAttack(userMoveCoordinates, this.id);
+    if (opponentGameboard.doesAttackHitAShip(userMoveCoordinates)) {
+      opponentGameboard.receiveAttack(userMoveCoordinates);
+
+      // Attack was successful, now update the DOM
+      const { x } = userMoveCoordinates;
+      const { y } = userMoveCoordinates;
+
+      const block = document.querySelector(`.${this.id}_id_${y}_${x}`);
+      block.style.backgroundColor = 'black';
+    }
+
     this.attemptedAttacks.push(userMoveCoordinates);
     render(opponentGameboard, this.id);
   }

@@ -79,7 +79,7 @@ export function createGameboard(width, height) {
     return 'legal';
   }
 
-  function receiveAttack(coordinates, id) {
+  function doesAttackHitAShip(coordinates) {
     /* Determine if an attack hit a ship and if so, then send hit to correct ship
 
       Args:
@@ -93,20 +93,27 @@ export function createGameboard(width, height) {
     if (this.board[y][x] === 0) {
       this.board[y][x] = 1;
       this.missedAttacks += 1;
-      return null;
+      return false;
     }
     // Attack is repeated, relevant to user only
     if (this.board[y][x] === 1 || this.board[y][x] === 'sunk') {
-      return null;
+      return false;
     }
+    return true;
+  }
 
-    // Attack succesfully hits a ship
+  function receiveAttack(coordinates) {
+    /* An attack was successful, now the ship is going to sink
+
+      Args:
+      coordinates -> Object -> x and y property
+    */
+    const { x } = coordinates;
+    const { y } = coordinates;
+
     const ship = this.board[y][x];
     ship.hit();
     this.board[y][x] = 'sunk';
-    const block = document.querySelector(`.${id}_id_${y}_${x}`);
-    block.style.backgroundColor = 'black';
-    return null;
   }
 
   function doesBoardHaveShips() {
@@ -134,5 +141,6 @@ export function createGameboard(width, height) {
     resetBoard,
     place,
     receiveAttack,
+    doesAttackHitAShip,
   };
 }

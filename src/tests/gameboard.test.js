@@ -1,5 +1,5 @@
 import * as gameboard from '../gameboard';
-import * as ship from '../ship';
+import { createShip } from '../ship';
 import { globalConsts } from '../root';
 
 describe('Gameboard ', () => {
@@ -12,7 +12,7 @@ describe('Gameboard ', () => {
       globalConsts.TEST_BOARD_SIZE,
     );
 
-    testShip = ship.createShip(3);
+    testShip = createShip(3);
   });
 
   test(`creates an ${globalConsts.TEST_BOARD_SIZE} x ${globalConsts.TEST_BOARD_SIZE} board filled with 0s`, () => {
@@ -44,7 +44,9 @@ describe('Gameboard ', () => {
   });
 
   test('An attack on blank block changes the value of the block to 1', () => {
-    testBoard.receiveAttack({ x: 0, y: 0 });
+    if (testBoard.doesAttackHitAShip({ x: 0, y: 0 })) {
+      testBoard.receiveAttack({ x: 0, y: 0 });
+    }
     expect(testBoard.board).toEqual([
       [1, 0, 0, 0],
       [0, 0, 0, 0],
@@ -55,9 +57,11 @@ describe('Gameboard ', () => {
   });
 
   test('A ship of length 1 is sunk and block changes value to "sunk"', () => {
-    const smallShip = ship.createShip(1);
+    const smallShip = createShip(1);
     testBoard.place(smallShip, { x: 0, y: 0 }, globalConsts.SHIP_DIRECTION);
-    testBoard.receiveAttack({ x: 0, y: 0 });
+    if (testBoard.doesAttackHitAShip({ x: 0, y: 0 })) {
+      testBoard.receiveAttack({ x: 0, y: 0 });
+    }
     expect(smallShip.isSunk).toBeTruthy();
     expect(testBoard.board).toEqual([
       ['sunk', 0, 0, 0],
