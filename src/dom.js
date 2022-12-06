@@ -69,11 +69,43 @@ function determineHtmlClass(player) {
 }
 
 export function displayShips(player, playerShips) {
-  /* Display the ships below the game board */
+  /* Display the ships below the game board
+
+    Args:
+    player -> Object -> Player factory fn
+    playerShips -> Array -> Array of all ships from player arg[0]
+  */
   const htmlClass = determineHtmlClass(player);
 
   const shipsDiv = document.querySelector(`.${htmlClass}`);
   for (let i = 0; i < playerShips.length; i += 1) {
-    // create a ship node and add it to ships div
+    for (let j = 0; j < playerShips[i].body.length; j += 1) { // assigning id to each ship part
+      // create a ship node and add it to ships div
+      const shipDiv = document.createElement('div');
+      shipDiv.textContent = `Length: ${playerShips[i].length} `;
+      shipDiv.setAttribute('id', `${player.id}_${playerShips[i].body[j]}`);
+      shipsDiv.appendChild(shipDiv);
+    }
+  }
+}
+
+export function renderShips(player, playerBoard) {
+  /* Render the ships, remove the sunken ones
+
+    Args:
+    player -> Object -> Player factory fn
+    playerBoard -> Array -> Board where the boats from the placey were placee
+  */
+  const htmlClass = determineHtmlClass(player);
+  const shipsDiv = document.querySelector(`.${htmlClass}`);
+
+  for (let i = 0; i < playerBoard.length; i += 1) {
+    for (let j = 0; j < playerBoard[i].length; j += 1) {
+      if (playerBoard[i][j] === 'sunk') {
+        // in case there is a repeat attempt at a sunk block we check if the child exists
+        const ship = document.getElementById(`${player.id}_${i},${j}`);
+        shipsDiv.removeChild(ship);
+      }
+    }
   }
 }

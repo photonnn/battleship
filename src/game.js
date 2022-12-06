@@ -1,6 +1,6 @@
 import * as player from './player';
 import * as game from './gameboard';
-import { displayShips, displayWinner } from './dom';
+import { displayShips, displayWinner, renderShips } from './dom';
 
 // eslint-disable-next-line import/prefer-default-export
 export function gameLoop() {
@@ -46,6 +46,8 @@ export function gameLoop() {
 
     i += 1;
   }
+  renderShips(user, botGameboard.board);
+  renderShips(bot, userGameboard.board);
   // Game end we clean up
   userGameboard.resetBoard();
   botGameboard.resetBoard();
