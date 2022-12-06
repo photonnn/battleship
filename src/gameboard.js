@@ -64,6 +64,7 @@ export function createGameboard(width, height) {
 
       while (shipLength > 0) {
         this.board[y + i][x + j] = ship;
+        ship.body.push([y + i, x + j]);
 
         if (direction === 'x') {
           j += 1;
@@ -74,9 +75,9 @@ export function createGameboard(width, height) {
         shipLength -= 1;
       }
     } else {
-      return 'illegal';
+      return 'illegal'; // the spot is unsuitable
     }
-    return 'legal';
+    return 'legal'; // the spot was suitable
   }
 
   function doesAttackHitAShip(coordinates) {
@@ -112,6 +113,7 @@ export function createGameboard(width, height) {
     const { y } = coordinates;
 
     const ship = this.board[y][x];
+    ship.body.pop([y, x]);
     ship.hit();
     this.board[y][x] = 'sunk';
   }

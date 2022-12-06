@@ -4,6 +4,7 @@ export function createShip(length) {
   return {
     length,
     hitCounter: 0,
+    body: [], // information on parts of the ship
     hit() {
       this.hitCounter += 1;
     },
