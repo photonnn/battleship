@@ -9,11 +9,13 @@ export function fillBoards() {
   for (let i = 0; i < globalConsts.BOARD_SIZE; i += 1) {
     for (let j = 0; j < globalConsts.BOARD_SIZE; j += 1) {
       const block = document.createElement('div');
-      block.classList.add('boardBlock', `user_id_${i}_${j}`);
+      block.setAttribute('id', `user_id_${i}_${j}`);
+      block.classList.add('boardBlock');
       userBoard.appendChild(block);
 
       const newBlock = document.createElement('div');
-      newBlock.classList.add('boardBlock', `bot_id_${i}_${j}`);
+      newBlock.setAttribute('id', `bot_id_${i}_${j}`);
+      newBlock.classList.add('boardBlock');
       botBoard.appendChild(newBlock);
     }
   }
@@ -31,7 +33,7 @@ export function render(board, id) {
   for (let i = 0; i < board.length; i += 1) {
     for (let j = 0; j < board[i].length; j += 1) {
       if (!ignorable.includes(board[i][j])) {
-        const block = document.querySelector(`.${id}_id_${i}_${j}`);
+        const block = document.getElementById(`${id}_id_${i}_${j}`);
         block.style.backgroundColor = 'silver';
       }
     }
