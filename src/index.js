@@ -1,9 +1,10 @@
 import './style.css';
-import { gameLoop } from './game';
+import { gameLoop, realGameLoop } from './game';
 import { fillBoards } from './dom';
 
 fillBoards();
-gameLoop();
+// gameLoop();
+realGameLoop();
 
 /*
   TO DO LIST:
@@ -36,5 +37,9 @@ gameLoop();
   Done: Change name of all gameboard factory function object to gameboard and the array to just
           board.
   Also use opponentGameboard and selfGameboard to denote who it belongs to.
+
+  Change color of the block when an attack misses. Additionally, work on the turn system.
+
+  Make it easier to control boardSize, shipSize and etc.
 
 */
