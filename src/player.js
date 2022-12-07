@@ -118,13 +118,38 @@ export function createPlayer(id) {
       const { x } = userMoveCoordinates;
       const { y } = userMoveCoordinates;
 
-      const block = document.querySelector(`.${this.id}_id_${y}_${x}`);
+      const block = document.getElementById(`${this.id}_id_${y}_${x}`);
       block.style.backgroundColor = 'black';
       block.style.border = 'solid grey 1px';
     }
 
     this.attemptedAttacks.push(userMoveCoordinates);
     render(opponentGameboard, this.id);
+  }
+
+  function makeMove(opponentGameboard, coordinates) {
+    /* Combine function to make a move:
+      1. Attack the given coordinates
+      1.5 Change the DOM
+      2. Save the attack, to prevent repetition
+      3. render
+    */
+    if (opponentGameboard.doesAttackHitAShip(coordinates)) {
+      opponentGameboard.receiveAttack(coordinates);
+
+      // Attack was successful, now update the DOM
+      const { x } = coordinates;
+      const { y } = coordinates;
+
+      const block = document.getElementById(`bot_id_${y}_${x}`);
+      block.style.backgroundColor = 'black';
+      block.style.border = 'solid grey 1px';
+    }
+
+    this.attemptedAttacks.push(coordinates);
+    render(opponentGameboard, 'bot');
+
+    return true;
   }
 
   return {
@@ -134,5 +159,6 @@ export function createPlayer(id) {
     makeRandomAIAttack,
     makeAIPreMove,
     makeAIMove,
+    makeMove,
   };
 }
