@@ -120,6 +120,7 @@ export function createPlayer(id) {
 
       const block = document.querySelector(`.${this.id}_id_${y}_${x}`);
       block.style.backgroundColor = 'black';
+      block.style.border = 'solid grey 1px';
     }
 
     this.attemptedAttacks.push(userMoveCoordinates);

@@ -32,7 +32,7 @@ export function render(board, id) {
     for (let j = 0; j < board[i].length; j += 1) {
       if (!ignorable.includes(board[i][j])) {
         const block = document.querySelector(`.${id}_id_${i}_${j}`);
-        block.style.backgroundColor = 'red';
+        block.style.backgroundColor = 'silver';
       }
     }
   }
@@ -79,13 +79,21 @@ export function displayShips(player, playerShips) {
 
   const shipsDiv = document.querySelector(`.${htmlClass}`);
   for (let i = 0; i < playerShips.length; i += 1) {
+    const shipDiv = document.createElement('div');
     for (let j = 0; j < playerShips[i].body.length; j += 1) { // assigning id to each ship part
       // create a ship node and add it to ships div
-      const shipDiv = document.createElement('div');
-      shipDiv.textContent = `Length: ${playerShips[i].length} `;
-      shipDiv.setAttribute('id', `${player.id}_${playerShips[i].body[j]}`);
-      shipsDiv.appendChild(shipDiv);
+      const shipPartDiv = document.createElement('div');
+      shipPartDiv.style.height = `${25}px`;
+      shipPartDiv.style.width = `${25}px`;
+      shipPartDiv.style.backgroundColor = 'silver';
+      shipPartDiv.style.textAlign = 'center';
+      shipPartDiv.style.margin = '0 5px';
+      shipPartDiv.style.border = 'black solid 1px';
+
+      shipPartDiv.setAttribute('id', `${player.id}_${playerShips[i].body[j]}`);
+      shipDiv.appendChild(shipPartDiv);
     }
+    shipsDiv.appendChild(shipDiv);
   }
 }
 
@@ -96,15 +104,14 @@ export function renderShips(player, playerBoard) {
     player -> Object -> Player factory fn
     playerBoard -> Array -> Board where the boats from the placey were placee
   */
-  const htmlClass = determineHtmlClass(player);
-  const shipsDiv = document.querySelector(`.${htmlClass}`);
 
   for (let i = 0; i < playerBoard.length; i += 1) {
     for (let j = 0; j < playerBoard[i].length; j += 1) {
       if (playerBoard[i][j] === 'sunk') {
         // in case there is a repeat attempt at a sunk block we check if the child exists
         const ship = document.getElementById(`${player.id}_${i},${j}`);
-        shipsDiv.removeChild(ship);
+        ship.style.backgroundColor = 'black';
+        ship.style.borderColor = 'grey';
       }
     }
   }
