@@ -42,4 +42,6 @@ realGameLoop();
 
   Make it easier to control boardSize, shipSize and etc.
 
+  Fix a bug where AI makes a random move on the wrong board.
+
 */
