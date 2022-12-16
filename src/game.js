@@ -8,6 +8,8 @@ function postClick(user, botGameboard, coordinates) {
   if (!botGameboard.doesBoardHaveShips()) {
     displayWinner('User wins!');
   }
+
+  renderShips(user, botGameboard.board);
 }
 
 function addListenersToBlocks(user, botGameboard) {
@@ -20,9 +22,59 @@ function addListenersToBlocks(user, botGameboard) {
   for (let i = 0; i < botGameboard.board.length; i += 1) {
     for (let j = 0; j < botGameboard.board[i].length; j += 1) {
       const block = document.getElementById(`bot_id_${i}_${j}`);
-      block.addEventListener('click', () => postClick(user, botGameboard, { x: j, y: i }));
+      block.addEventListener('click', () => postClick({ x: j, y: i }, user, bot, userGameboard, botGameboard));
     }
   }
+}
+
+async function takeTurn(currentPlayer, Gameboard) {
+  /* 
+    Args:
+    currentPlayer -> Object -> Player factory fn, either user or bot
+    Gameboard -> Object -> Gameboard factory fn, either botGameboard or userGameboard
+  */
+  return new Promise((resolve, reject) => {
+    let timeout;
+    if (currentPlayer.id === 'user') {
+      // get user move
+      const botBoard = document.querySelector('.botBoard .board');
+      botBoard.addEventListener('click', (event) => {
+        const move = event.target.id;
+        const numbers = move.split('_').slice(-2);
+        const coordinates = {
+          y: numbers[0],
+          x: numbers[1],
+        };
+        currentPlayer.makeMove(Gameboard, coordinates);
+
+        // clear timeout
+        clearTimeout(timeout);
+
+        // update game state
+        resolve(move);
+      });
+
+      // set timeout to resolve the Promise after 10 seconds
+      timeout = setTimeout(() => {
+        resolve();
+      }, 10000);
+    } else if (currentPlayer.id === 'bot') {
+      // get the bot's move
+      currentPlayer.makeAIMove(Gameboard);
+      console.log('AI MADE A MOVE');
+      // update te game state
+      resolve();
+    } else {
+      reject(Error('Invalid player'));
+    }
+  });
+}
+
+async function playGame(user, bot, userGameboard, botGameboard) {
+  await takeTurn(user, botGameboard)
+    .then(() => takeTurn(bot, userGameboard))
+    .then(() => playGame(user, bot, userGameboard, botGameboard))
+    .catch((error) => console.error(error));
 }
 
 export function realGameLoop() {
@@ -51,10 +103,18 @@ export function realGameLoop() {
   displayShips(user, userShips);
   displayShips(bot, botShips);
 
-  addListenersToBlocks(user, botGameboard);
+  playGame(user, bot, userGameboard, botGameboard);
+
+  /* while (keepRunning) {
+    playGame();
+    bot.makeAIMove(userGameboard);
+
+    if (!userGameboard.doesBoardHaveShips()) {
+      displayWinner('Bot wins');
+    }
+  } */
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export function gameLoop() {
   /* Main loop function for the game between a bot and a bot */
   const user = player.createPlayer('user');
