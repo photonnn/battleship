@@ -10,5 +10,8 @@ export const globalConsts = {
   MAXIMUM_SHIP_LENGTH: 4,
   TEST_BOARD_SIZE: 4,
   BOARD_SIZE: 20,
+  NUMBER_OF_SHIPS: 10,
   SHIP_DIRECTION: 'x',
+  MISSED_ATTACK_COLOR: 'orange',
+  GAME_OVER: false,
 };

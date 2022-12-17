@@ -49,6 +49,8 @@ export function displayWinner(msg) {
 
   const winnerDivParagraph = document.querySelector('.winner p');
   winnerDivParagraph.textContent = msg;
+
+  globalConsts.GAME_OVER = true;
 }
 
 function determineHtmlClass(player) {
