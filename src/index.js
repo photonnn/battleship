@@ -1,10 +1,9 @@
 import './style.css';
-import { gameLoop, realGameLoop } from './game';
+import { playGame } from './game';
 import { fillBoards } from './dom';
 
 fillBoards();
-// gameLoop();
-realGameLoop();
+playGame();
 
 /*
   TO DO LIST:
@@ -42,6 +41,16 @@ realGameLoop();
 
   Make it easier to control boardSize, shipSize and etc.
 
-  Fix a bug where AI makes a random move on the wrong board.
+  Fix a bug where AI makes a random move on the wrong board. In general fix a problem with mix-up
+  between the bot board and the user board. There's also a problem with the ships below the board
+  not displaying the correct ones, and what's more, the two board have different ships, they should
+  be the same!
+  More, looks like the AI is repeating moves, that shouldn't happeened, at all.
+        Most of these worked on/fixed. More updates very soon.
+
+  Check for legality of the attack in the takeTurn function at the very top, whence you get event
+  target id. This is because sometimes if you click on the very edge of the block, on the border,
+  the attack doesn't go through, because then x and y are undefined or empty string. Also put
+  a function to check if the attack is legal there. No need to then check if the makeMove function.
 
 */
