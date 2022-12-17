@@ -57,24 +57,34 @@ export function createPlayer(id) {
     gameboard.place(ship, moveCoordinates, direction);
   }
 
-  function makeRandomAIAttack(gameboard) {
+  function returnAvailableAttacks(gameboard) {
+    /* Returns an array, that contains available attack, the ones that AI hasn't attempted
+      to do, aka the ones that appear orange.
+
+    Args:
+    gameboard -> Object -> Gameboard factory fn */
+    const attacks = [];
+    const illegalToAttack = [globalConsts.MISSED_ATTACK_COLOR, 'black'];
+    for (let i = 0; i < gameboard.board.length; i += 1) {
+      for (let j = 0; j < gameboard.board[i].length; j += 1) {
+        const block = document.getElementById(`user_id_${i}_${j}`);
+        if (!illegalToAttack.includes(block.style.backgroundColor)) {
+          attacks.push([i, j]);
+        }
+      }
+    }
+    return attacks;
+  }
+
+  function generateRandomAIAttackCoordinates(gameboard) {
     /* Generate a random attack based which is different from the ones already attempted
 
       Args:
       gameboard -> Object -> Gameboard factory fn
     */
-    let keepRunning = true;
-    let randomCoordinates;
-    while (keepRunning) {
-      randomCoordinates = {
-        x: Math.floor(Math.random() * gameboard.width),
-        y: Math.floor(Math.random() * gameboard.width),
-      };
-      if (!this.attemptedAttacks.includes(randomCoordinates)) {
-        keepRunning = false;
-      }
-    }
-    return randomCoordinates;
+    const legalAttacks = returnAvailableAttacks(gameboard);
+    const index = Math.floor(Math.random() * legalAttacks.length);
+    return { x: legalAttacks[index][1], y: legalAttacks[index][0] };
   }
 
   function makeAIPreMove(opponentGameboard) {
@@ -110,20 +120,24 @@ export function createPlayer(id) {
       opponentGameboard -> Object -> Gameboard factory fn
     */
 
-    const userMoveCoordinates = this.makeRandomAIAttack(opponentGameboard);
+    const userMoveCoordinates = this.generateRandomAIAttackCoordinates(opponentGameboard);
+    const { x } = userMoveCoordinates;
+    const { y } = userMoveCoordinates;
     if (opponentGameboard.doesAttackHitAShip(userMoveCoordinates)) {
       opponentGameboard.receiveAttack(userMoveCoordinates);
-
       // Attack was successful, now update the DOM
-      const { x } = userMoveCoordinates;
-      const { y } = userMoveCoordinates;
 
-      const block = document.getElementById(`${this.id}_id_${y}_${x}`);
+      // const block = document.getElementById(`${this.id}_id_${y}_${x}`);
+      const block = document.getElementById(`user_id_${y}_${x}`);
       block.style.backgroundColor = 'black';
       block.style.border = 'solid grey 1px';
+    } else {
+      // show where the attack missed
+      const block = document.getElementById(`user_id_${y}_${x}`);
+      block.style.backgroundColor = 'orange';
+      block.style.border = 'solid black 1px';
     }
 
-    this.attemptedAttacks.push(userMoveCoordinates);
     render(opponentGameboard, this.id);
   }
 
@@ -134,29 +148,33 @@ export function createPlayer(id) {
       2. Save the attack, to prevent repetition
       3. render
     */
+    const { x } = coordinates;
+    const { y } = coordinates;
     if (opponentGameboard.doesAttackHitAShip(coordinates)) {
       opponentGameboard.receiveAttack(coordinates);
 
-      // Attack was successful, now update the DOM
-      const { x } = coordinates;
-      const { y } = coordinates;
-
+      // Attack was successful
       const block = document.getElementById(`bot_id_${y}_${x}`);
       block.style.backgroundColor = 'black';
       block.style.border = 'solid grey 1px';
+    } else {
+      // Attack missed
+      const block = document.getElementById(`bot_id_${y}_${x}`);
+      if (block.style.backgroundColor === 'black' || block.style.backgroundColor === 'orange') { // if repeated
+        return false;
+      }
+      block.style.backgroundColor = 'orange';
+      block.style.border = 'solid black 1px';
     }
 
-    this.attemptedAttacks.push(coordinates);
     render(opponentGameboard, 'bot');
-
     return true;
   }
 
   return {
     id,
     placeAIShip,
-    attemptedAttacks: [],
-    makeRandomAIAttack,
+    generateRandomAIAttackCoordinates,
     makeAIPreMove,
     makeAIMove,
     makeMove,
