@@ -1,58 +1,9 @@
 import * as player from './player';
 import * as game from './gameboard';
-import { displayShips, displayWinner, render } from './dom';
+import {
+  displayShips, displayWinner, initialRender, render,
+} from './dom';
 import { globalConsts } from './root';
-
-/*
-async function takeTurn(currentPlayer, Gameboard) {
-  /*
-    Args:
-    currentPlayer -> Object -> Player factory fn, either user or bot
-    Gameboard -> Object -> Gameboard factory fn, either botGameboard or userGameboard
-
-  return new Promise((resolve, reject) => {
-    let timeout;
-    if (currentPlayer.id === 'user') {
-      // get user move
-      const botBoard = document.querySelector('.botBoard .board');
-      botBoard.addEventListener('click', (event) => {
-        const move = event.target.id;
-        const numbers = move.split('_').slice(-2);
-        const coordinates = {
-          y: numbers[0],
-          x: numbers[1],
-        };
-        currentPlayer.makeMove(Gameboard, coordinates);
-        render(Gameboard, 'user');
-        if (!Gameboard.doesBoardHaveShips()) {
-          displayWinner('User wins');
-        }
-
-        // clear timeout
-        clearTimeout(timeout);
-
-        // update game state
-        resolve(move);
-      });
-
-      // set timeout to resolve the Promise after 10 seconds
-      timeout = setTimeout(() => {
-        resolve();
-      }, 1000000);
-    } else if (currentPlayer.id === 'bot') {
-      // get the bot's move
-      currentPlayer.makeAIMove(Gameboard);
-      render(Gameboard, 'bot');
-      if (!Gameboard.doesBoardHaveShips()) {
-        displayWinner('Bot wins');
-      }
-      // update te game state
-      resolve();
-    } else {
-      reject(Error('Invalid player'));
-    }
-  });
-} */
 
 async function takeTurn(currentPlayer, Gameboard) {
   /*
@@ -70,23 +21,23 @@ async function takeTurn(currentPlayer, Gameboard) {
     let timeout;
 
     const handleMove = (event) => {
-      const move = event.target.id;
-      console.log('You clicked on', move); // Check here if move is legal!!!! instead of below!!!
-      const numbers = move.split('_').slice(-2); // Extract numbers from ex: bot_id_5_5
-      const coordinates = {
-        y: numbers[0],
-        x: numbers[1],
-      };
-      const valid = currentPlayer.makeMove(Gameboard, coordinates);
-      if (valid) { // when attack is legal
-        render(Gameboard, 'user');
+      const coordinates = Gameboard.getCoordinates(event.target.id);
+      if (coordinates !== false) {
+        if (Gameboard.doesAttackHitAShip(coordinates)) {
+          // Attacks was successful
+          Gameboard.receiveAttack(coordinates);
+        }
+        render(Gameboard, 'bot');
+
         if (!Gameboard.doesBoardHaveShips()) {
           displayWinner('User wins');
         }
+
         botBoard.removeEventListener('click', handleMove);
         clearTimeout(timeout);
-        resolve(move);
-      } else { // when attack isn't legal
+        resolve();
+      } else {
+        // when attack isn't legal try again
         takeTurn(currentPlayer, Gameboard);
       }
     };
@@ -99,7 +50,8 @@ async function takeTurn(currentPlayer, Gameboard) {
       }, 10000);
     } else if (currentPlayer.id === 'bot') {
       currentPlayer.makeAIMove(Gameboard);
-      render(Gameboard, 'bot');
+      render(Gameboard, 'user');
+
       if (!Gameboard.doesBoardHaveShips()) {
         displayWinner('Bot wins');
       }
@@ -145,6 +97,10 @@ export function playGame() {
   // Display the ships
   displayShips(user, userShips);
   displayShips(bot, botShips);
+
+  // Initial Render
+  initialRender(userGameboard, 'user');
+  initialRender(botGameboard, 'bot');
 
   // Start the game loop
   gameLoop(user, bot, userGameboard, botGameboard);

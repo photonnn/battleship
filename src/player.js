@@ -1,4 +1,3 @@
-import { render } from './dom';
 import { isSuitable } from './gameboard';
 import { globalConsts } from './root';
 import { createShip } from './ship';
@@ -91,7 +90,6 @@ export function createPlayer(id) {
     /* Combine functions to:
       1. Create a random ship
       2. Place the ship randomly
-      3. Render the board
 
       Args:
       gameboard -> Object -> Gameboard factory function object
@@ -104,7 +102,6 @@ export function createPlayer(id) {
       + globalConsts.MINIMUM_SHIP_LENGTH;
     const newShip = createShip(shipLength);
     this.placeAIShip(opponentGameboard, newShip);
-    render(opponentGameboard.board, this.id);
     return newShip;
   }
 
@@ -112,63 +109,15 @@ export function createPlayer(id) {
     /* Combine functions to:
       1. Generate attack coordinates
       2. Attack the selected coordinates
-      2.5 Change the dom of the block
-      3. Save the attack, to prevent repetition
-      4. Render
 
       Args:
       opponentGameboard -> Object -> Gameboard factory fn
     */
 
     const userMoveCoordinates = this.generateRandomAIAttackCoordinates(opponentGameboard);
-    const { x } = userMoveCoordinates;
-    const { y } = userMoveCoordinates;
     if (opponentGameboard.doesAttackHitAShip(userMoveCoordinates)) {
       opponentGameboard.receiveAttack(userMoveCoordinates);
-      // Attack was successful, now update the DOM
-
-      // const block = document.getElementById(`${this.id}_id_${y}_${x}`);
-      const block = document.getElementById(`user_id_${y}_${x}`);
-      block.style.backgroundColor = 'black';
-      block.style.border = 'solid grey 1px';
-    } else {
-      // show where the attack missed
-      const block = document.getElementById(`user_id_${y}_${x}`);
-      block.style.backgroundColor = 'orange';
-      block.style.border = 'solid black 1px';
     }
-
-    render(opponentGameboard, this.id);
-  }
-
-  function makeMove(opponentGameboard, coordinates) {
-    /* Combine function to make a move:
-      1. Attack the given coordinates
-      1.5 Change the DOM
-      2. Save the attack, to prevent repetition
-      3. render
-    */
-    const { x } = coordinates;
-    const { y } = coordinates;
-    if (opponentGameboard.doesAttackHitAShip(coordinates)) {
-      opponentGameboard.receiveAttack(coordinates);
-
-      // Attack was successful
-      const block = document.getElementById(`bot_id_${y}_${x}`);
-      block.style.backgroundColor = 'black';
-      block.style.border = 'solid grey 1px';
-    } else {
-      // Attack missed
-      const block = document.getElementById(`bot_id_${y}_${x}`);
-      if (block.style.backgroundColor === 'black' || block.style.backgroundColor === 'orange') { // if repeated
-        return false;
-      }
-      block.style.backgroundColor = 'orange';
-      block.style.border = 'solid black 1px';
-    }
-
-    render(opponentGameboard, 'bot');
-    return true;
   }
 
   return {
@@ -177,6 +126,5 @@ export function createPlayer(id) {
     generateRandomAIAttackCoordinates,
     makeAIPreMove,
     makeAIMove,
-    makeMove,
   };
 }

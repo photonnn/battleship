@@ -134,6 +134,25 @@ export function createGameboard(width, height) {
     return false;
   }
 
+  function getCoordinates(move) {
+    /* Parses the event target id information to obtain coordinates for an attack.
+    If it occurs that the user did not click properly on the block, return false
+    and take turn again.
+
+    Args:
+    coordinates -> Object -> Has x and y property
+    */
+    const numbers = move.split('_').slice(-2); // Extract numbers from ex: bot_id_5_5
+    const coordinates = {
+      y: numbers[0],
+      x: numbers[1],
+    };
+    if (Number.isInteger(+coordinates.x) && Number.isInteger(+coordinates.y)) {
+      return coordinates;
+    }
+    return false; // in this case user likely clicked on a border or somehow glitched the game
+  }
+
   return {
     width,
     height,
@@ -144,5 +163,6 @@ export function createGameboard(width, height) {
     place,
     receiveAttack,
     doesAttackHitAShip,
+    getCoordinates,
   };
 }

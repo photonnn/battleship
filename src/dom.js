@@ -21,25 +21,6 @@ export function fillBoards() {
   }
 }
 
-export function render(board, id) {
-  /* Update the board based on information
-
-    Args:
-    board -> Array -> 2D array, has information about the board
-  */
-
-  const ignorable = [0, 1, 'sunk'];
-
-  for (let i = 0; i < board.length; i += 1) {
-    for (let j = 0; j < board[i].length; j += 1) {
-      if (!ignorable.includes(board[i][j])) {
-        const block = document.getElementById(`${id}_id_${i}_${j}`);
-        block.style.backgroundColor = 'silver';
-      }
-    }
-  }
-}
-
 export function displayWinner(msg) {
   /* Renders the name of the winner at the top of the web page
 
@@ -101,21 +82,48 @@ export function displayShips(player, playerShips) {
   }
 }
 
-export function renderShips(player, playerBoard) {
-  /* Render the ships, remove the sunken ones
+export function initialRender(Gameboard, userID) {
+  /* Renders the ships on the board, is ran only once
 
-    Args:
-    player -> Object -> Player factory fn
-    playerBoard -> Array -> Board where the boats from the placey were placee
-  */
+  Args:
+  Gameboard -> Object -> Gameboard factory fn
+  userID -> String -> Id of the player, same prefix as gameboard */
+  const playerBoard = Gameboard.board;
+  const ignorable = [0, 1, 'sunk']; // only alternatives are the ships
 
   for (let i = 0; i < playerBoard.length; i += 1) {
     for (let j = 0; j < playerBoard[i].length; j += 1) {
-      if (playerBoard[i][j] === 'sunk') {
-        // in case there is a repeat attempt at a sunk block we check if the child exists
-        const ship = document.getElementById(`${player.id}_${i},${j}`);
+      if (!ignorable.includes(playerBoard[i][j])) {
+        const block = document.getElementById(`${userID}_id_${i}_${j}`);
+        block.style.backgroundColor = 'silver';
+      }
+    }
+  }
+}
+
+export function render(Gameboard, opponentID) {
+  /* Update the game state
+
+    Args;
+    Gameboard -> Object -> Gameboard factory fn
+    opponentID -> String -> Id of the player, not the same prefix as gameboard
+  */
+  const playerBoard = Gameboard.board;
+
+  for (let i = 0; i < playerBoard.length; i += 1) {
+    for (let j = 0; j < playerBoard[i].length; j += 1) {
+      if (playerBoard[i][j] === 'sunk') { // Render the sunken ships and section below the board
+        const ship = document.getElementById(`${opponentID}_${i},${j}`);
         ship.style.backgroundColor = 'black';
         ship.style.borderColor = 'grey';
+        const block = document.getElementById(`${opponentID}_id_${i}_${j}`);
+        block.style.backgroundColor = 'black';
+        block.style.border = 'solid grey 1px';
+      }
+      if (playerBoard[i][j] === 1) { // Render the missed attacks
+        const block = document.getElementById(`${opponentID}_id_${i}_${j}`);
+        block.style.backgroundColor = 'orange';
+        block.style.border = 'solid black 1px';
       }
     }
   }

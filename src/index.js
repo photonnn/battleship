@@ -53,4 +53,10 @@ playGame();
   the attack doesn't go through, because then x and y are undefined or empty string. Also put
   a function to check if the attack is legal there. No need to then check if the makeMove function.
 
+  Brilliant idea, instead of y and x use row and col. :OOOO
+
+  Add a border/shadow/outline outside the board in order to show the user that it is in fact their
+  turn. Add a bit of delay before the AI makes an attack to make it more intense, as well as think
+  about potential sound effects.
+
 */
