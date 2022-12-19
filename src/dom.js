@@ -6,15 +6,15 @@ export function fillBoards() {
   const userBoard = document.querySelector('.userBoard > *');
   const botBoard = document.querySelector('.botBoard > *');
 
-  for (let i = 0; i < globalConsts.BOARD_SIZE; i += 1) {
-    for (let j = 0; j < globalConsts.BOARD_SIZE; j += 1) {
+  for (let row = 0; row < globalConsts.BOARD_SIZE; row += 1) {
+    for (let col = 0; col < globalConsts.BOARD_SIZE; col += 1) {
       const block = document.createElement('div');
-      block.setAttribute('id', `user_id_${i}_${j}`);
+      block.setAttribute('id', `user_id_${row}_${col}`);
       block.classList.add('boardBlock');
       userBoard.appendChild(block);
 
       const newBlock = document.createElement('div');
-      newBlock.setAttribute('id', `bot_id_${i}_${j}`);
+      newBlock.setAttribute('id', `bot_id_${row}_${col}`);
       newBlock.classList.add('boardBlock');
       botBoard.appendChild(newBlock);
     }
@@ -63,9 +63,9 @@ export function displayShipsBelowBoard(player, playerShips) {
   const htmlClass = determineHtmlClass(player);
 
   const shipsDiv = document.querySelector(`.${htmlClass}`);
-  for (let i = 0; i < playerShips.length; i += 1) {
+  for (let row = 0; row < playerShips.length; row += 1) {
     const shipDiv = document.createElement('div');
-    for (let j = 0; j < playerShips[i].body.length; j += 1) { // assigning id to each ship part
+    for (let col = 0; col < playerShips[row].body.length; col += 1) { // assigning id to ship parts
       // create a ship node and add it to ships div
       const shipPartDiv = document.createElement('div');
       shipPartDiv.style.height = `${25}px`;
@@ -75,7 +75,7 @@ export function displayShipsBelowBoard(player, playerShips) {
       shipPartDiv.style.margin = '0 5px';
       shipPartDiv.style.border = 'black solid 1px';
 
-      shipPartDiv.setAttribute('id', `${player.id}_${playerShips[i].body[j]}`);
+      shipPartDiv.setAttribute('id', `${player.id}_${playerShips[row].body[col]}`);
       shipDiv.appendChild(shipPartDiv);
     }
     shipsDiv.appendChild(shipDiv);
@@ -91,10 +91,10 @@ export function initialRender(Gameboard, userID) {
   const playerBoard = Gameboard.board;
   const ignorable = [0, 1, 'sunk']; // only alternatives are the ships
 
-  for (let i = 0; i < playerBoard.length; i += 1) {
-    for (let j = 0; j < playerBoard[i].length; j += 1) {
-      if (!ignorable.includes(playerBoard[i][j])) {
-        const block = document.getElementById(`${userID}_id_${i}_${j}`);
+  for (let row = 0; row < playerBoard.length; row += 1) {
+    for (let col = 0; col < playerBoard[row].length; col += 1) {
+      if (!ignorable.includes(playerBoard[row][col])) {
+        const block = document.getElementById(`${userID}_id_${row}_${col}`);
         block.style.backgroundColor = 'silver';
       }
     }
@@ -110,18 +110,18 @@ export function render(Gameboard, opponentID) {
   */
   const playerBoard = Gameboard.board;
 
-  for (let i = 0; i < playerBoard.length; i += 1) {
-    for (let j = 0; j < playerBoard[i].length; j += 1) {
-      if (playerBoard[i][j] === 'sunk') { // Render the sunken ships and section below the board
-        const ship = document.getElementById(`${opponentID}_${i},${j}`);
+  for (let row = 0; row < playerBoard.length; row += 1) {
+    for (let col = 0; col < playerBoard[row].length; col += 1) {
+      if (playerBoard[row][col] === 'sunk') { // Render the sunken ships and section below the board
+        const ship = document.getElementById(`${opponentID}_${row},${col}`);
         ship.style.backgroundColor = 'black';
         ship.style.borderColor = 'grey';
-        const block = document.getElementById(`${opponentID}_id_${i}_${j}`);
+        const block = document.getElementById(`${opponentID}_id_${row}_${col}`);
         block.style.backgroundColor = 'black';
         block.style.border = 'solid grey 1px';
       }
-      if (playerBoard[i][j] === 1) { // Render the missed attacks
-        const block = document.getElementById(`${opponentID}_id_${i}_${j}`);
+      if (playerBoard[row][col] === 1) { // Render the missed attacks
+        const block = document.getElementById(`${opponentID}_id_${row}_${col}`);
         block.style.backgroundColor = 'orange';
         block.style.border = 'solid black 1px';
       }

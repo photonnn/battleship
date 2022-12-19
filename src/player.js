@@ -10,18 +10,18 @@ export function createPlayer(id) {
     id -> String -> 'User' or 'AI'
   */
 
-  function getLegalMoves(board, ship, direction) {
+  function getLegalMoves(board, ship, placementDirection) {
     /* Return an array filled with coordinates of legal moves
 
-      Args:
-      board -> Array -> 2D gameboard, see gameboard.js
-    */
+        Args:
+        board -> Array -> 2D gameboard, see gameboard.js
+      */
 
     const legalMoves = [];
-    for (let y = 0; y < board.length; y += 1) {
-      for (let x = 0; x < board[y].length; x += 1) {
-        if (isSuitable(board, ship, { x, y }, direction)) {
-          legalMoves.push({ x, y });
+    for (let row = 0; row < board.length; row += 1) {
+      for (let col = 0; col < board[row].length; col += 1) {
+        if (isSuitable(board, ship, { x: col, y: row }, placementDirection)) {
+          legalMoves.push({ x: col, y: row });
         }
       }
     }
@@ -35,7 +35,7 @@ export function createPlayer(id) {
   }
 
   function chooseAIDirection() {
-    /* Choose the direction based on a coin toss */
+    /* Choose the placement direction based on a coin toss */
     const val = Math.floor(Math.random() * 2);
     if (val) {
       return 'x';
@@ -64,11 +64,11 @@ export function createPlayer(id) {
     gameboard -> Object -> Gameboard factory fn */
     const attacks = [];
     const illegalToAttack = [globalConsts.MISSED_ATTACK_COLOR, 'black'];
-    for (let i = 0; i < gameboard.board.length; i += 1) {
-      for (let j = 0; j < gameboard.board[i].length; j += 1) {
-        const block = document.getElementById(`user_id_${i}_${j}`);
+    for (let row = 0; row < gameboard.board.length; row += 1) {
+      for (let col = 0; col < gameboard.board[row].length; col += 1) {
+        const block = document.getElementById(`user_id_${row}_${col}`);
         if (!illegalToAttack.includes(block.style.backgroundColor)) {
-          attacks.push([i, j]);
+          attacks.push([row, col]);
         }
       }
     }

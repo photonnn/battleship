@@ -1,4 +1,4 @@
-export function isSuitable(board, ship, coordinates, direction) {
+export function isSuitable(board, ship, coordinates, placementDirection) {
   /*  Checks if a ship can be placed on the specified coordinates
       and in the specified direction. Used for AI only because it
       has is guaranteed that the specified coordinates are legal.
@@ -7,29 +7,26 @@ export function isSuitable(board, ship, coordinates, direction) {
     board -> Array_-> 2D
     ship -> Object
     coordinates -> Object -> x and y property
-    direction -> String -> 'x' or 'y'
+    placementDirection -> String -> 'x' or 'y'
   */
-  let i = 0;
-  let j = 0;
-  let shipLength = ship.length;
+  let row = 0;
+  let col = 0;
 
   const { x } = coordinates;
   const { y } = coordinates;
 
-  while (shipLength > 0) {
+  for (let shipLength = ship.length; shipLength > 0; shipLength -= 1) {
     // The first two conditions are to allow the 3rd to not throw an error!
-    if ((board.length - 1) < (y + i) || (board[y].length - 1) < (x + j) // RETHINK THIS
-    || board[y + i][x + j] !== 0) {
+    if ((board.length - 1) < (y + row) || (board[y].length - 1) < (x + col) // RETHINK THIS
+    || board[y + row][x + col] !== 0) {
       return false;
     }
 
-    if (direction === 'x') {
-      j += 1;
-    } else {
-      i += 1;
+    if (placementDirection === 'x') {
+      col += 1;
+    } else { // placementDirection == 'y'
+      row += 1;
     }
-
-    shipLength -= 1;
   }
   return true;
 }
@@ -57,20 +54,20 @@ export function createGameboard(width, height) {
     */
     if (isSuitable(this.board, ship, coordinates, direction)) {
       let shipLength = ship.length;
-      let i = 0;
-      let j = 0;
+      let row = 0;
+      let col = 0;
 
       const { x } = coordinates;
       const { y } = coordinates;
 
       while (shipLength > 0) {
-        this.board[y + i][x + j] = ship;
-        ship.body.push([y + i, x + j]);
+        this.board[y + row][x + col] = ship;
+        ship.body.push([y + row, x + col]);
 
         if (direction === 'x') {
-          j += 1;
+          col += 1;
         } else {
-          i += 1;
+          row += 1;
         }
 
         shipLength -= 1;
@@ -124,9 +121,9 @@ export function createGameboard(width, height) {
     const arr = this.board;
     const legalOutcomes = [0, 1, 'sunk'];
 
-    for (let i = 0; i < arr.length; i += 1) {
-      for (let j = 0; j < arr[i].length; j += 1) {
-        if (!legalOutcomes.includes(arr[i][j])) {
+    for (let row = 0; row < arr.length; row += 1) {
+      for (let col = 0; col < arr[row].length; col += 1) {
+        if (!legalOutcomes.includes(arr[row][col])) {
           return true;
         }
       }
