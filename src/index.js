@@ -61,4 +61,17 @@ playGame();
   turn. Add a bit of delay before the AI makes an attack to make it more intense, as well as think
   about potential sound effects.
 
+  Change the winner display, do some disagn changes on the website.
+  Add the Play again button, maybe even the title screen.
+  Add a local storage, a high score, or in general a high score system.
+
+  Harder to implement changes:
+  1. Add the ability to place your own ships. Just place the ones below the board to the board.
+  2. Make the AI smarter, gulp
+  3. Once the ship is fully found, destroy the surroinding blocks. As a consequence ships can't
+     be placed in the direct vicinity with each other.
+  4, Add the ability to choose difficulty on the title screen.
+  5. Add the ability to play in the sandbox mode, aka. user vs user
+  6. Add online play, for beginning just a simple pvp 1v1 invite link thingy
+
 */
