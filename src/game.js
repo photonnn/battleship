@@ -82,6 +82,9 @@ export function playGame() {
   const boardSize = globalConsts.BOARD_SIZE;
   const numberOfShips = globalConsts.NUMBER_OF_SHIPS;
 
+  const root = document.querySelector(':root');
+  root.style.setProperty('--boardSize', `${globalConsts.BOARD_SIZE}`);
+
   const userGameboard = game.createGameboard(boardSize, boardSize);
   const botGameboard = game.createGameboard(boardSize, boardSize);
 
@@ -100,7 +103,7 @@ export function playGame() {
 
   // Initial Render
   initialRender(userGameboard, 'user');
-  initialRender(botGameboard, 'bot');
+  // initialRender(botGameboard, 'bot');
 
   // Start the game loop
   gameLoop(user, bot, userGameboard, botGameboard);

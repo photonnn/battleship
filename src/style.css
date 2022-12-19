@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --boardSize: 20
+}
+
 body {
   height: 100vh;
 
@@ -60,8 +64,8 @@ header {
   background-color: azure;
 
   display: grid;
-  grid-template-columns: repeat(20, 1fr);
-  grid-template-rows: repeat(20, 1fr);
+  grid-template-columns: repeat(var(--boardSize), 1fr);
+  grid-template-rows: repeat(var(--boardSize), 1fr);
 }
 
 .bot {
