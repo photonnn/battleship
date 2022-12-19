@@ -37,23 +37,25 @@ playGame();
           board.
   Also use opponentGameboard and selfGameboard to denote who it belongs to.
 
-  Change color of the block when an attack misses. Additionally, work on the turn system.
+  Done: Change color of the block when an attack misses. Additionally, work on the turn system.
 
-  Make it easier to control boardSize, shipSize and etc.
+  Done: Make it easier to control boardSize, shipSize and etc.
 
-  Fix a bug where AI makes a random move on the wrong board. In general fix a problem with mix-up
-  between the bot board and the user board. There's also a problem with the ships below the board
-  not displaying the correct ones, and what's more, the two board have different ships, they should
-  be the same!
-  More, looks like the AI is repeating moves, that shouldn't happeened, at all.
-        Most of these worked on/fixed. More updates very soon.
+  Partially Done:
+        Done: Fix a bug where AI makes a random move on the wrong board.
+        In general fix a problem with mix-up between the bot board and the user board.
+        Done: There's also a problem with the ships below the board not displaying the
+                correct ones,
+        More, the two board have different ships, they should be the same!
+        Maybe Done: More, looks like the AI is repeating moves, that shouldn't happeened, at all.
+                Most of these worked on/fixed. More updates very soon.
 
   Check for legality of the attack in the takeTurn function at the very top, whence you get event
   target id. This is because sometimes if you click on the very edge of the block, on the border,
   the attack doesn't go through, because then x and y are undefined or empty string. Also put
   a function to check if the attack is legal there. No need to then check if the makeMove function.
 
-  Brilliant idea, instead of y and x use row and col. :OOOO
+  Done: Brilliant idea, instead of y and x use row and col. :OOOO
 
   Add a border/shadow/outline outside the board in order to show the user that it is in fact their
   turn. Add a bit of delay before the AI makes an attack to make it more intense, as well as think
