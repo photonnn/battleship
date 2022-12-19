@@ -95,7 +95,7 @@ export function createPlayer(id) {
       gameboard -> Object -> Gameboard factory function object
 
       Returns:
-      newShip -> Object -> Used as an utility for displayShips function
+      newShip -> Object -> Used as an utility for displayShipsBelowBoard function
     */
 
     const shipLength = Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH)

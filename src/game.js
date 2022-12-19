@@ -1,7 +1,7 @@
 import * as player from './player';
 import * as game from './gameboard';
 import {
-  displayShips, displayWinner, initialRender, render,
+  displayShipsBelowBoard, displayWinner, initialRender, render,
 } from './dom';
 import { globalConsts } from './root';
 
@@ -9,7 +9,7 @@ async function takeTurn(currentPlayer, Gameboard) {
   /*
     A turn function, that is part of the game loop. Returns a promise so the chaining
     results in a continous exchange between the user and the bot, until the condition
-    for an end are met.
+    for an end is met.
 
     Args:
     currentPlayer -> Object -> Player Factory fn
@@ -47,7 +47,7 @@ async function takeTurn(currentPlayer, Gameboard) {
       timeout = setTimeout(() => {
         botBoard.removeEventListener('click', handleMove);
         resolve();
-      }, 10000);
+      }, 100000);
     } else if (currentPlayer.id === 'bot') {
       currentPlayer.makeAIMove(Gameboard);
       render(Gameboard, 'user');
@@ -95,8 +95,8 @@ export function playGame() {
   }
 
   // Display the ships
-  displayShips(user, userShips);
-  displayShips(bot, botShips);
+  displayShipsBelowBoard(user, userShips);
+  displayShipsBelowBoard(bot, botShips);
 
   // Initial Render
   initialRender(userGameboard, 'user');

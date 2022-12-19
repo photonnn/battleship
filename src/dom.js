@@ -53,7 +53,7 @@ function determineHtmlClass(player) {
   return htmlClass;
 }
 
-export function displayShips(player, playerShips) {
+export function displayShipsBelowBoard(player, playerShips) {
   /* Display the ships below the game board
 
     Args:

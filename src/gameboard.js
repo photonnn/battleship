@@ -1,6 +1,7 @@
 export function isSuitable(board, ship, coordinates, direction) {
-  /*  Checks if it is legal for a user to place a ship on
-      specified coordinates and in a specified direction
+  /*  Checks if a ship can be placed on the specified coordinates
+      and in the specified direction. Used for AI only because it
+      has is guaranteed that the specified coordinates are legal.
 
     Args:
     board -> Array_-> 2D
