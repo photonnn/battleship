@@ -113,3 +113,27 @@ header .winner p {
 .boardBlock:hover {
   background-color: rgb(230, 94, 94) !important;
 }
+
+.shipPartDiv {
+  width: 25px;
+  height: 25px;
+  background-color: silver;
+  text-align: center;
+  margin: 0 5px;
+  border: black solid 1px;
+}
+
+.shipBlock {
+  background-color: black;
+  border: solid gray 1px;
+}
+
+.sunkenBlock {
+  background-color: black !important;
+  border: solid grey 1px;
+}
+
+.missedBlock {
+  background-color: orange;
+  border: solid black 1px;
+}

@@ -68,12 +68,7 @@ export function displayShipsBelowBoard(player, playerShips) {
     for (let col = 0; col < playerShips[row].body.length; col += 1) { // assigning id to ship parts
       // create a ship node and add it to ships div
       const shipPartDiv = document.createElement('div');
-      shipPartDiv.style.height = `${25}px`;
-      shipPartDiv.style.width = `${25}px`;
-      shipPartDiv.style.backgroundColor = 'silver';
-      shipPartDiv.style.textAlign = 'center';
-      shipPartDiv.style.margin = '0 5px';
-      shipPartDiv.style.border = 'black solid 1px';
+      shipPartDiv.classList.add('shipPartDiv');
 
       shipPartDiv.setAttribute('id', `${player.id}_${playerShips[row].body[col]}`);
       shipDiv.appendChild(shipPartDiv);
@@ -114,16 +109,14 @@ export function render(Gameboard, opponentID) {
     for (let col = 0; col < playerBoard[row].length; col += 1) {
       if (playerBoard[row][col] === 'sunk') { // Render the sunken ships and section below the board
         const ship = document.getElementById(`${opponentID}_${row},${col}`);
-        ship.style.backgroundColor = 'black';
-        ship.style.borderColor = 'grey';
+        ship.classList.add('shipBlock');
+
         const block = document.getElementById(`${opponentID}_id_${row}_${col}`);
-        block.style.backgroundColor = 'black';
-        block.style.border = 'solid grey 1px';
+        block.classList.add('sunkenBlock');
       }
       if (playerBoard[row][col] === 1) { // Render the missed attacks
         const block = document.getElementById(`${opponentID}_id_${row}_${col}`);
-        block.style.backgroundColor = 'orange';
-        block.style.border = 'solid black 1px';
+        block.classList.add('missedBlock');
       }
     }
   }
