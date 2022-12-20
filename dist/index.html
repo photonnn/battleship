@@ -7,31 +7,43 @@
     <title>Battleship</title>
   </head>
   <body>
-    <header>
-      <p>USER</p>
-      <div class="winner">
-        <p></p>
-      </div>
-      <p>AI</p>
-    </header>
-    <div class="user">
-      <div class="userShips">
-      </div>
-      <div class="userBoard">
-        <div class="board">
 
+    <div id="titleScreen">
+      <h1>Battleships</h1>
+      <button id="playButton"><p>Play</p></button>
+    </div>
+
+    <div id="game" style="display: none;">
+      <header>
+        <p>USER</p>
+        <div class="winner">
+          <p></p>
+        </div>
+        <p>AI</p>
+      </header>
+
+      <div class="user">
+        <div class="userShips">
+        </div>
+        <div class="userBoard">
+          <div class="board">
+  
+          </div>
         </div>
       </div>
-    </div>
-    <div class="bot">
-      <div class="botBoard">
-        <div class="board">
-          
+
+      <div class="bot">
+        <div class="botBoard">
+          <div class="board">
+            
+          </div>
+        </div>
+        <div class="botShips">
         </div>
       </div>
-      <div class="botShips">
-      </div>
+
     </div>
+    <header>
     <script src="bundle.js"></script>
   </body>
 </html>
