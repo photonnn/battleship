@@ -75,4 +75,12 @@ playGame();
   5. Add the ability to play in the sandbox mode, aka. user vs user
   6. Add online play, for beginning just a simple pvp 1v1 invite link thingy
 
+  Design changes ideas:
+  Add exit/back/titlescreen button to the top right of the game, as well as a settings button
+  where the user can restart, change the amount of ships, sound effects and etc.
+  Look at actual real life battelships for design impressions. The idea is to have the same
+  design in the game as in the deck of the captian room.
+
+  Also add a messege box or a timer to make a move. Sound effect for timer as well.
+
 */
