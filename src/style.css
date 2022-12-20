@@ -5,11 +5,57 @@
 }
 
 :root {
-  --boardSize: 20
+  --boardSize: 20;
+  --playButtonFont: 'Unbounded', cursive;
+  --titleScreenBackground: RGB(135, 206, 235);
+  --titleFontColor: black;
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@300&display=swap');
 
 body {
   height: 100vh;
+}
+
+#titleScreen {
+  height: 100vh;
+  background-color: var(--titleScreenBackground);
+  font-family: var(--playButtonFont);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+#titleScreen h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--titleFontColor);
+  font-size: 125px;
+}
+
+#titleScreen #playButton {
+  background: rgb(0,0,144);
+  background: linear-gradient(0deg, rgba(0,0,144,1) 8%, rgba(6,69,237,0.96) 48%, rgba(7,123,150,1) 100%);
+  border: none;
+}
+
+#titleScreen #playButton p{
+  font-size: 150px;
+  color: RGB(135, 206, 235);
+  font-family: var(--playButtonFont);
+}
+
+#titleScreen #playButton p:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+#game {
+  height: 100vh;
+  background: grey;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -20,6 +66,7 @@ body {
 
 header {
   grid-area: 1 / 1 / 2 / 3;
+  background: #525252;
 }
 
 .user,
@@ -61,7 +108,7 @@ header {
 .board {
   width: 500px; /*  20 * 25 */
   height: 500px;
-  background-color: azure;
+  background-color: var(--titleScreenBackground);
 
   display: grid;
   grid-template-columns: repeat(var(--boardSize), 1fr);
@@ -80,6 +127,7 @@ header {
   align-items: center;
 
   font-size: 3rem;
+  color:rgb(173, 159, 77); /* maybe red */
   border-bottom: black solid 1px;
 }
 
@@ -117,23 +165,23 @@ header .winner p {
 .shipPartDiv {
   width: 25px;
   height: 25px;
-  background-color: silver;
+  background-color: #78716c;
   text-align: center;
   margin: 0 5px;
   border: black solid 1px;
 }
 
 .shipBlock {
-  background-color: black;
-  border: solid gray 1px;
+  background-color: red;
+  border: solid black 1px;
 }
 
 .sunkenBlock {
-  background-color: black !important;
+  background-color: red !important;
   border: solid grey 1px;
 }
 
 .missedBlock {
-  background-color: orange;
+  background-color: black;
   border: solid black 1px;
 }

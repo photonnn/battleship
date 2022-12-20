@@ -90,7 +90,7 @@ export function initialRender(Gameboard, userID) {
     for (let col = 0; col < playerBoard[row].length; col += 1) {
       if (!ignorable.includes(playerBoard[row][col])) {
         const block = document.getElementById(`${userID}_id_${row}_${col}`);
-        block.style.backgroundColor = 'silver';
+        block.style.backgroundColor = '#a8a29e';
       }
     }
   }
