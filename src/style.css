@@ -6,7 +6,7 @@
 
 :root {
   --boardSize: 20;
-  --playButtonFont: 'Unbounded', cursive;
+  --playBtnFont: 'Unbounded', cursive;
   --titleScreenBackground: RGB(135, 206, 235);
   --titleFontColor: black;
   --headerHeight: 10vh;
@@ -21,7 +21,7 @@ body {
 #titleScreen {
   height: 100vh;
   background-color: var(--titleScreenBackground);
-  font-family: var(--playButtonFont);
+  font-family: var(--playBtnFont);
 
   display: grid;
   grid-template-columns: 1fr;
@@ -37,19 +37,19 @@ body {
   font-size: 125px;
 }
 
-#titleScreen #playButton {
+#titleScreen #playBtn {
   background: rgb(0,0,144);
   background: linear-gradient(0deg, rgba(0,0,144,1) 8%, rgba(6,69,237,0.96) 48%, rgba(7,123,150,1) 100%);
   border: none;
 }
 
-#titleScreen #playButton p{
+#titleScreen #playBtn p{
   font-size: 150px;
   color: RGB(135, 206, 235);
-  font-family: var(--playButtonFont);
+  font-family: var(--playBtnFont);
 }
 
-#titleScreen #playButton p:hover {
+#titleScreen #playBtn p:hover {
   opacity: 0.9;
   cursor: pointer;
 }
@@ -154,7 +154,7 @@ header .buttons {
   align-items: center;
 
   font-size: 40px;
-  font-family: var(--playButtonFont);
+  font-family: var(--playBtnFont);
 }
 
 header .winner {
