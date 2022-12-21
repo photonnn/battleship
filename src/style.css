@@ -9,12 +9,13 @@
   --playButtonFont: 'Unbounded', cursive;
   --titleScreenBackground: RGB(135, 206, 235);
   --titleFontColor: black;
+  --headerHeight: 10vh;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@300&display=swap');
 
 body {
-  height: 100vh;
+  height: 100%;
 }
 
 #titleScreen {
@@ -59,14 +60,9 @@ body {
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 100px 1fr;
+  grid-template-rows: var(--headerHeight) 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-}
-
-header {
-  grid-area: 1 / 1 / 2 / 3;
-  background: #525252;
 }
 
 .user,
@@ -122,28 +118,52 @@ header {
 }
 
 header {
-  display: flex;
-  justify-content: space-evenly;
+  grid-area: 1 / 1 / 2 / 3;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
 
   font-size: 3rem;
-  color:rgb(173, 159, 77); /* maybe red */
-  border-bottom: black solid 1px;
+  font-weight: bolder;
+  border-bottom: black solid 2px;
 }
 
-header p {
-  margin-right: 350px;
-  margin-left: 350px;
+header > p {
+  text-align: center;
+  color: #1f2937;
+}
+
+header .buttons {
+  position: fixed;
+  right: 0;
+
+  display: flex;
+}
+
+#exitBtn, #optionsBtn {
+  width: 75px;
+  height: var(--headerHeight);
+
+  color: #111827;
+  background-color: #525252;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 40px;
+  font-family: var(--playButtonFont);
 }
 
 header .winner {
-  position: fixed;
-  /*
+  /* position: fixed; 
   display: flex;
   justify-content: center;
   width: 300px;
   left: 50%;
-  margin-left: -150px; /* negative half of width
+  margin-left: -150px; /* negative half of width 
   flex-direction: row; */
 }
 
