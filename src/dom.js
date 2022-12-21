@@ -21,6 +21,17 @@ export function fillBoards() {
   }
 }
 
+export function resetBoard() {
+  /* Reset the board */
+  const elements = ['.botBoard > *', '.userBoard > *', '.botShips', '.userShips'];
+  elements.forEach((selector) => {
+    const element = document.querySelector(selector);
+    while (element.firstChild) {
+      element.firstChild.remove();
+    }
+  });
+}
+
 export function displayWinner(msg) {
   /* Renders the name of the winner at the top of the web page
 
