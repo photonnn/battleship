@@ -1,55 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Battleship</title>
-  </head>
-  <body>
 
-    <div id="titleScreen">
-      <h1>Battleships</h1>
-      <button id="playBtn"><p>Play</p></button>
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battleship</title>
+</head>
 
-    <div id="game" style="display: none;">
-      <header>
-        <p>USER</p>
-        <!--
+<body>
+  <div id="cover" style="display: none"></div>
+
+  <div id="titleScreen">
+    <h1>Battleships</h1>
+    <button id="playBtn">
+      <p>Play</p>
+    </button>
+  </div>
+
+  <div id="options" style="display: none">
+    <h1>Options</h1>
+    <form class="form" action="#">
+      <div class="form-row">
+        <label for="slider1">Sound</label>
+        <input type="range" id="slider1" min="0" max="100" value="50">
+        <div class="slider-value">
+          <span>50</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="slider2">Ships</label>
+        <input type="range" id="slider2" min="1" max="15" value="8">
+        <div class="slider-value">
+          <span> 8</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="slider3">Board</label>
+        <input type="range" id="slider3" min="5" max="25" value="15">
+        <div class="slider-value">
+          <span>15</span>
+        </div>
+      </div>
+      <!--
+      <div class="form-row">
+        <label for="checkbox">Restart game</label>
+        <input type="checkbox" id="checkbox">
+      </div>-->
+      <button type="submit">Apply</button>
+    </form>
+    <button id="exitOptionsBtn">X</button>
+  </div>
+
+  <div id="game" style="display: none">
+    <header>
+      <p>USER</p>
+      <!--
         <div class="winner">
           <p></p>
         </div>
         -->
-        <p>AI</p>
-        <div class="buttons">
-          <button id="optionsBtn">⚙️</button>
-          <button id="exitBtn">X</button>
-        </div>
-      </header>
+      <p>AI</p>
+      <div class="buttons">
+        <button id="optionsBtn">⚙️</button>
+        <button id="exitGameBtn">X</button>
+      </div>
+    </header>
 
-      <div class="user">
-        <div class="userShips">
-        </div>
-        <div class="userBoard">
-          <div class="board">
-  
-          </div>
+    <div class="user">
+      <div class="userShips">
+      </div>
+      <div class="userBoard">
+        <div class="board">
+
         </div>
       </div>
-
-      <div class="bot">
-        <div class="botBoard">
-          <div class="board">
-            
-          </div>
-        </div>
-        <div class="botShips">
-        </div>
-      </div>
-
     </div>
-    <header>
+
+    <div class="bot">
+      <div class="botBoard">
+        <div class="board">
+
+        </div>
+      </div>
+      <div class="botShips">
+      </div>
+    </div>
+
+  </div>
+  <header>
     <script src="bundle.js"></script>
-  </body>
+</body>
+
 </html>

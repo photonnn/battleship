@@ -4,7 +4,12 @@ import { globalConsts } from './root';
 
 document.addEventListener('DOMContentLoaded', () => {
   const playButton = document.getElementById('playBtn');
-  const exitButton = document.getElementById('exitBtn');
+  const exitGameButton = document.getElementById('exitGameBtn');
+  const exitOptionsButton = document.getElementById('exitOptionsBtn');
+  const optionsButton = document.getElementById('optionsBtn');
+
+  const cover = document.getElementById('cover');
+  const options = document.getElementById('options');
   const game = document.getElementById('game');
   const titleScreen = document.getElementById('titleScreen');
 
@@ -14,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     titleScreen.style.display = 'none';
   });
 
-  exitButton.addEventListener('click', () => {
+  exitGameButton.addEventListener('click', () => {
     // hide the game and go to title screen
     game.style.display = 'none';
     titleScreen.style.display = 'grid';
@@ -24,5 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
     resetBoard();
     fillBoards();
     playGame();
+  });
+
+  optionsButton.addEventListener('click', () => {
+    // Show the cover and the options div
+    cover.style.display = 'block';
+    options.style.display = 'flex';
+  });
+
+  exitOptionsButton.addEventListener('click', () => {
+    // Hide the cover and the options div
+    cover.style.display = 'none';
+    options.style.display = 'none';
   });
 });
