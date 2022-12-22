@@ -18,7 +18,7 @@ async function takeTurn(currentPlayer, Gameboard) {
   */
   return new Promise((resolve, reject) => {
     const botBoard = document.querySelector('.botBoard .board');
-    let timeout;
+    // let timeout;
 
     const handleMove = (event) => {
       const coordinates = Gameboard.getCoordinates(event.target.id);
@@ -34,7 +34,7 @@ async function takeTurn(currentPlayer, Gameboard) {
         }
 
         botBoard.removeEventListener('click', handleMove);
-        clearTimeout(timeout);
+        // clearTimeout(timeout);
         resolve();
       } else {
         // when attack isn't legal try again
@@ -44,10 +44,10 @@ async function takeTurn(currentPlayer, Gameboard) {
 
     if (currentPlayer.id === 'user') {
       botBoard.addEventListener('click', handleMove);
-      timeout = setTimeout(() => {
-        botBoard.removeEventListener('click', handleMove);
-        resolve();
-      }, 100000);
+      // timeout = setTimeout(() => {
+      //  botBoard.removeEventListener('click', handleMove);
+      //  resolve();
+      // }, 100000);
     } else if (currentPlayer.id === 'bot') {
       currentPlayer.makeAIMove(Gameboard);
       render(Gameboard, 'user');
