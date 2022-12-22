@@ -51,10 +51,11 @@ playGame();
         Maybe Done: More, looks like the AI is repeating moves, that shouldn't happeened, at all.
                 Most of these worked on/fixed. More updates very soon.
 
-  Check for legality of the attack in the takeTurn function at the very top, whence you get event
-  target id. This is because sometimes if you click on the very edge of the block, on the border,
-  the attack doesn't go through, because then x and y are undefined or empty string. Also put
-  a function to check if the attack is legal there. No need to then check if the makeMove function.
+  I think, done: Check for legality of the attack in the takeTurn function at the very top, where
+  you get event target id. This is because sometimes if you click on the very edge of the block,
+  on the border, the attack doesn't go through, because then x and y are undefined or empty string.
+  Also put a function to check if the attack is legal there. No need to then check if the
+  makeMove function.
 
   Done: Brilliant idea, instead of y and x use row and col. :OOOO
 
@@ -62,11 +63,19 @@ playGame();
   turn. Add a bit of delay before the AI makes an attack to make it more intense, as well as think
   about potential sound effects.
 
-  Change the winner display, do some disagn changes on the website.
+  Rework the game over system. Right now the game doesn't end the to a bug, check console.
+
   Add the Play again button, maybe even the title screen.
   Add a local storage, a high score, or in general a high score system.
 
-  Harder to implement changes:
+  Done: Add exit/back/titlescreen button to the top right of the game, as well as a settings button
+        where the user can restart, change the amount of ships, sound effects and etc.
+  Look at actual real life battelships for design impressions. The idea is to have the same
+  design in the game as in the deck of the captian room.
+
+  Also add a messege box or a timer to make a move. Sound effect for timer as well.
+
+    Harder to implement changes:
   1. Add the ability to place your own ships. Just place the ones below the board to the board.
   2. Make the AI smarter, gulp
   3. Once the ship is fully found, destroy the surroinding blocks. As a consequence ships can't
@@ -74,13 +83,4 @@ playGame();
   4, Add the ability to choose difficulty on the title screen.
   5. Add the ability to play in the sandbox mode, aka. user vs user
   6. Add online play, for beginning just a simple pvp 1v1 invite link thingy
-
-  Design changes ideas:
-  Add exit/back/titlescreen button to the top right of the game, as well as a settings button
-  where the user can restart, change the amount of ships, sound effects and etc.
-  Look at actual real life battelships for design impressions. The idea is to have the same
-  design in the game as in the deck of the captian room.
-
-  Also add a messege box or a timer to make a move. Sound effect for timer as well.
-
 */
