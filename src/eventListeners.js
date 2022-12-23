@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const exitGameButton = document.getElementById('exitGameBtn');
   const exitOptionsButton = document.getElementById('exitOptionsBtn');
   const optionsButton = document.getElementById('optionsBtn');
+  const applyOptionsButton = document.getElementById('applyOptionsBtn');
 
   // Other
   const cover = document.getElementById('cover');
@@ -24,16 +25,20 @@ document.addEventListener('DOMContentLoaded', () => {
     titleScreen.style.display = 'none';
   }
 
-  function exitGame() {
-    // hide the game and go to title screen
-    game.style.display = 'none';
-    titleScreen.style.display = 'grid';
-
+  function resetGame() {
     // Reset the game
     globalConsts.GAME_OVER = true;
     resetBoard();
     fillBoards();
     playGame();
+  }
+
+  function exitGame() {
+    // hide the game and go to title screen
+    game.style.display = 'none';
+    titleScreen.style.display = 'grid';
+
+    resetGame();
   }
 
   function showOptions() {
@@ -49,18 +54,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateSliderSpan(event) {
-    const { value } = event.target;
+    const value = Number(event.target.value);
+    const { id } = event.target;
 
-    const sliderSpan = document.querySelector(`.${event.target.id}`);
+    const sliderSpan = document.querySelector(`.${id}`);
     // Respective slider spans have the same class name as the id
     // of the slider
     sliderSpan.innerHTML = value;
+
+    if (id === 'boardSlider') {
+      globalConsts.BOARD_SIZE = value;
+    } else if (id === 'shipSlider') {
+      globalConsts.NUMBER_OF_SHIPS = value;
+    } else if (id === 'soundSlider') {
+      globalConsts.SOUND = value;
+    }
   }
 
   playButton.addEventListener('click', startGame);
   exitGameButton.addEventListener('click', exitGame);
   optionsButton.addEventListener('click', showOptions);
   exitOptionsButton.addEventListener('click', hideOptions);
+  applyOptionsButton.addEventListener('click', () => {
+    // Exit options and restart the game
+    hideOptions();
+    resetGame();
+  });
 
   sliders.forEach((slider) => {
     slider.addEventListener('input', updateSliderSpan);

@@ -14,4 +14,5 @@ export const globalConsts = {
   SHIP_DIRECTION: 'x',
   MISSED_ATTACK_COLOR: 'orange',
   GAME_OVER: false,
+  SOUND: 50,
 };
