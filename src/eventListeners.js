@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const game = document.getElementById('game');
   const titleScreen = document.getElementById('titleScreen');
 
-  playButton.addEventListener('click', () => {
+  function startGame() {
     // hide the title screen and start the game
     game.style.display = 'grid';
     titleScreen.style.display = 'none';
-  });
+  }
 
-  exitGameButton.addEventListener('click', () => {
+  function exitGame() {
     // hide the game and go to title screen
     game.style.display = 'none';
     titleScreen.style.display = 'grid';
@@ -29,17 +29,22 @@ document.addEventListener('DOMContentLoaded', () => {
     resetBoard();
     fillBoards();
     playGame();
-  });
+  }
 
-  optionsButton.addEventListener('click', () => {
+  function showOptions() {
     // Show the cover and the options div
     cover.style.display = 'block';
     options.style.display = 'flex';
-  });
+  }
 
-  exitOptionsButton.addEventListener('click', () => {
+  function hideOptions() {
     // Hide the cover and the options div
     cover.style.display = 'none';
     options.style.display = 'none';
-  });
+  }
+
+  playButton.addEventListener('click', startGame);
+  exitGameButton.addEventListener('click', exitGame);
+  optionsButton.addEventListener('click', showOptions);
+  exitOptionsButton.addEventListener('click', hideOptions);
 });

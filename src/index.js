@@ -1,7 +1,7 @@
 import './style.css';
 import { playGame } from './game';
 import { fillBoards } from './dom';
-import './titleScreen';
+import './eventListeners';
 
 fillBoards();
 playGame();
