@@ -32,17 +32,18 @@ export function resetBoard() {
   });
 }
 
-export function displayWinner(msg) {
+export function displayWinner() {
   /* Renders the name of the winner at the top of the web page
 
     Args:
     msg -> String -> A messega to display
   */
 
-  const winnerDivParagraph = document.querySelector('.winner p');
-  winnerDivParagraph.textContent = msg;
+  // const winnerDivParagraph = document.querySelector('.winner p');
+  // winnerDivParagraph.textContent = msg;
 
-  globalConsts.GAME_OVER = true;
+  const exitBtn = document.getElementById('exitGameBtn');
+  exitBtn.dispatchEvent(new Event('click'));
 }
 
 function determineHtmlClass(player) {

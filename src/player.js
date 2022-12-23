@@ -63,13 +63,15 @@ export function createPlayer(id) {
     Args:
     gameboard -> Object -> Gameboard factory fn */
     const attacks = [];
-    const illegalToAttack = [globalConsts.MISSED_ATTACK_COLOR, 'black'];
     for (let row = 0; row < gameboard.board.length; row += 1) {
       for (let col = 0; col < gameboard.board[row].length; col += 1) {
         const block = document.getElementById(`user_id_${row}_${col}`);
-        if (!illegalToAttack.includes(block.style.backgroundColor)) {
+        if (!block.classList.contains('missedBlock') && !block.classList.contains('sunkenBlock')) {
           attacks.push([row, col]);
         }
+        // if (!illegalToAttack.includes(block.style.backgroundColor)) {
+        //   attacks.push([row, col]);
+        // }
       }
     }
     return attacks;
@@ -118,6 +120,7 @@ export function createPlayer(id) {
     if (opponentGameboard.doesAttackHitAShip(userMoveCoordinates)) {
       opponentGameboard.receiveAttack(userMoveCoordinates);
     }
+    console.log(userMoveCoordinates);
   }
 
   return {

@@ -20,30 +20,32 @@ async function takeTurn(currentPlayer, Gameboard) {
     const botBoard = document.querySelector('.botBoard .board');
     // let timeout;
 
-    const handleMove = (event) => {
+    globalConsts.handleMove = (event) => {
       const coordinates = Gameboard.getCoordinates(event.target.id);
-      if (coordinates !== false) {
-        if (Gameboard.doesAttackHitAShip(coordinates)) {
+      if (coordinates !== false) { // coordinates are legal
+        const res = Gameboard.doesAttackHitAShip(coordinates);
+        if (res) {
           // Attacks was successful
           Gameboard.receiveAttack(coordinates);
         }
         render(Gameboard, 'bot');
 
         if (!Gameboard.doesBoardHaveShips()) {
-          displayWinner('User wins');
+          displayWinner(); // user wins
         }
 
-        botBoard.removeEventListener('click', handleMove);
+        botBoard.removeEventListener('click', globalConsts.handleMove);
         // clearTimeout(timeout);
         resolve();
       } else {
         // when attack isn't legal try again
+        console.log('ILLEGAL ATTACK');
         takeTurn(currentPlayer, Gameboard);
       }
     };
 
     if (currentPlayer.id === 'user') {
-      botBoard.addEventListener('click', handleMove);
+      botBoard.addEventListener('click', globalConsts.handleMove);
       // timeout = setTimeout(() => {
       //  botBoard.removeEventListener('click', handleMove);
       //  resolve();
@@ -53,7 +55,7 @@ async function takeTurn(currentPlayer, Gameboard) {
       render(Gameboard, 'user');
 
       if (!Gameboard.doesBoardHaveShips()) {
-        displayWinner('Bot wins');
+        displayWinner(); // bot wins
       }
       resolve();
     } else {
@@ -69,6 +71,7 @@ async function gameLoop(user, bot, userGameboard, botGameboard) {
       .then(() => gameLoop(user, bot, userGameboard, botGameboard))
       .catch((error) => console.error(error));
   }
+  console.log('over');
 }
 
 // eslint-disable-next-line import/prefer-default-export

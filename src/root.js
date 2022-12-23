@@ -12,7 +12,7 @@ export const globalConsts = {
   BOARD_SIZE: 10,
   NUMBER_OF_SHIPS: 5,
   SHIP_DIRECTION: 'x',
-  MISSED_ATTACK_COLOR: 'orange',
   GAME_OVER: false,
   SOUND: 50,
+  handleMove: 'listener', // we keep a reference, so we can remove it
 };

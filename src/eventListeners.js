@@ -23,12 +23,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // hide the title screen and start the game
     game.style.display = 'grid';
     titleScreen.style.display = 'none';
+
+    // start the game
+    fillBoards();
+    playGame();
   }
 
   function resetGame() {
     // Reset the game
     globalConsts.GAME_OVER = true;
     resetBoard();
+
+    // Remove any event listeners that were added during the game
+    const botBoard = document.querySelector('.botBoard .board');
+    botBoard.removeEventListener('click', globalConsts.handleMove);
+
     fillBoards();
     playGame();
   }
@@ -38,7 +47,13 @@ document.addEventListener('DOMContentLoaded', () => {
     game.style.display = 'none';
     titleScreen.style.display = 'grid';
 
-    resetGame();
+    // Reset game but don't start new one
+    globalConsts.GAME_OVER = true;
+    resetBoard();
+
+    // Remove any event listeners that were added during the game
+    const botBoard = document.querySelector('.botBoard .board');
+    botBoard.removeEventListener('click', globalConsts.handleMove);
   }
 
   function showOptions() {
