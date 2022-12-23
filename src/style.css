@@ -91,6 +91,8 @@ body {
   position: absolute;
   top: 0;
   right: 0;
+  width: 60px !important; /* override the header buttons */
+  height: 60px !important;
 }
 
 #options .form {
@@ -115,11 +117,16 @@ body {
 #options .slider-value {
   width: 30px;
   text-align: center;
+  margin-left: 1rem;
 }
 
 #options input[type="range"] {
   flex: 1;
   margin-left: 1rem;
+}
+
+#options .form-row > label {
+  max-width: 15%;
 }
 
 #options input[type="checkbox"] {
