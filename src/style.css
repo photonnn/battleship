@@ -246,15 +246,16 @@ header .buttons {
   font-family: var(--playBtnFont);
 }
 
+/*
 header .winner {
-  /* position: fixed; 
+   position: fixed; 
   display: flex;
   justify-content: center;
   width: 300px;
   left: 50%;
   margin-left: -150px; /* negative half of width 
-  flex-direction: row; */
-}
+  flex-direction: row; 
+}  */
 
 header .winner p {
   color: rgb(173, 159, 77);
