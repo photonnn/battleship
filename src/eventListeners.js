@@ -3,15 +3,20 @@ import { fillBoards, resetBoard } from './dom';
 import { globalConsts } from './root';
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Buttons
   const playButton = document.getElementById('playBtn');
   const exitGameButton = document.getElementById('exitGameBtn');
   const exitOptionsButton = document.getElementById('exitOptionsBtn');
   const optionsButton = document.getElementById('optionsBtn');
 
+  // Other
   const cover = document.getElementById('cover');
   const options = document.getElementById('options');
   const game = document.getElementById('game');
   const titleScreen = document.getElementById('titleScreen');
+
+  // Sliders
+  const sliders = document.querySelectorAll('.slider');
 
   function startGame() {
     // hide the title screen and start the game
@@ -43,8 +48,21 @@ document.addEventListener('DOMContentLoaded', () => {
     options.style.display = 'none';
   }
 
+  function updateSliderSpan(event) {
+    const { value } = event.target;
+
+    const sliderSpan = document.querySelector(`.${event.target.id}`);
+    // Respective slider spans have the same class name as the id
+    // of the slider
+    sliderSpan.innerHTML = value;
+  }
+
   playButton.addEventListener('click', startGame);
   exitGameButton.addEventListener('click', exitGame);
   optionsButton.addEventListener('click', showOptions);
   exitOptionsButton.addEventListener('click', hideOptions);
+
+  sliders.forEach((slider) => {
+    slider.addEventListener('input', updateSliderSpan);
+  });
 });
