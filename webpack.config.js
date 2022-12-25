@@ -16,7 +16,7 @@ const config = {
         ],
       },
       {
-        test: /\.wav$/,
+        test: /\.(mp3|wav)$/,
         use: 'file-loader',
       },
     ],
