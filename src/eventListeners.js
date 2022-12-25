@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const optionsButton = document.getElementById('optionsBtn');
   const applyOptionsButton = document.getElementById('applyOptionsBtn');
 
+  // Sliders
+  const sliders = document.querySelectorAll('.slider');
+
   // Other
   const cover = document.getElementById('cover');
   const options = document.getElementById('options');
   const game = document.getElementById('game');
   const titleScreen = document.getElementById('titleScreen');
-
-  // Sliders
-  const sliders = document.querySelectorAll('.slider');
 
   function startGame() {
     // hide the title screen and start the game
@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateSliderSpan(event) {
+    // Update the span to match the value of the slider
     const value = Number(event.target.value);
     const { id } = event.target;
 
@@ -86,15 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function applyOptions() {
+    // Exit options and restart the game
+    hideOptions();
+    resetGame();
+  }
+
   playButton.addEventListener('click', startGame);
   exitGameButton.addEventListener('click', exitGame);
   optionsButton.addEventListener('click', showOptions);
   exitOptionsButton.addEventListener('click', hideOptions);
-  applyOptionsButton.addEventListener('click', () => {
-    // Exit options and restart the game
-    hideOptions();
-    resetGame();
-  });
+  applyOptionsButton.addEventListener('click', applyOptions);
 
   sliders.forEach((slider) => {
     slider.addEventListener('input', updateSliderSpan);
