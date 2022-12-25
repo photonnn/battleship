@@ -4,7 +4,7 @@ const config = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
     rules: [
@@ -12,11 +12,15 @@ const config = {
         test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader'
-        ]
-      }
-    ]
-  }
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.wav$/,
+        use: 'file-loader',
+      },
+    ],
+  },
 };
 
 module.exports = config;
