@@ -43,6 +43,7 @@ async function takeTurn(currentPlayer, Gameboard) {
     if (currentPlayer.id === 'user') {
       botBoard.addEventListener('click', globalConsts.handleMove);
     } else if (currentPlayer.id === 'bot') {
+      //   setTimeout(() => {
       currentPlayer.makeAIMove(Gameboard);
       render(Gameboard, 'user');
 
@@ -50,6 +51,7 @@ async function takeTurn(currentPlayer, Gameboard) {
         displayWinner(); // bot wins
       }
       resolve(true);
+      //     }, 2000);
     } else {
       reject(Error('Invalid player'));
     }

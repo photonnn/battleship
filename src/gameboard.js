@@ -1,3 +1,5 @@
+import { globalConsts } from './root';
+
 export function isSuitable(board, ship, coordinates, placementDirection) {
   /*  Checks if a ship can be placed on the specified coordinates
       and in the specified direction. Used for AI only because it
@@ -114,6 +116,11 @@ export function createGameboard(width, height) {
     ship.body.pop([y, x]);
     ship.hit();
     this.board[y][x] = 'sunk';
+
+    const audio = new Audio();
+    audio.src = '../Assets/0epd6-wfoka.wav';
+    audio.volume = globalConsts.SOUND;
+    audio.play();
   }
 
   function doesBoardHaveShips() {

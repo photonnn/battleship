@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (id === 'shipSlider') {
       globalConsts.NUMBER_OF_SHIPS = value;
     } else if (id === 'soundSlider') {
-      globalConsts.SOUND = value;
+      globalConsts.SOUND = value / 100;
     }
   }
 

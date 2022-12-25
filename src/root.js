@@ -13,6 +13,6 @@ export const globalConsts = {
   NUMBER_OF_SHIPS: 5,
   SHIP_DIRECTION: 'x',
   GAME_OVER: false,
-  SOUND: 50,
+  SOUND: 0.5,
   handleMove: 'listener', // we keep a reference, so we can remove it
 };
