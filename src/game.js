@@ -3,7 +3,7 @@ import * as game from './gameboard';
 import {
   displayShipsBelowBoard, displayWinner, initialRender, render,
 } from './dom';
-import { globalConsts } from './root';
+import { audioExplosion, audioSplash, globalConsts } from './root';
 
 async function takeTurn(currentPlayer, Gameboard) {
   /*
@@ -20,10 +20,11 @@ async function takeTurn(currentPlayer, Gameboard) {
       const coordinates = Gameboard.getCoordinates(event.target.id);
 
       if (coordinates !== false) { // coordinates are legal
-        const res = Gameboard.doesAttackHitAShip(coordinates);
-
-        if (res) { // Attack hits a ship
+        if (Gameboard.doesAttackHitAShip(coordinates)) { // Attack hits a ship
           Gameboard.receiveAttack(coordinates);
+          audioExplosion();
+        } else {
+          audioSplash();
         }
         render(Gameboard, 'bot');
 
@@ -43,15 +44,15 @@ async function takeTurn(currentPlayer, Gameboard) {
     if (currentPlayer.id === 'user') {
       botBoard.addEventListener('click', globalConsts.handleMove);
     } else if (currentPlayer.id === 'bot') {
-      //   setTimeout(() => {
-      currentPlayer.makeAIMove(Gameboard);
-      render(Gameboard, 'user');
+      setTimeout(() => {
+        currentPlayer.makeAIMove(Gameboard);
+        render(Gameboard, 'user');
 
-      if (!Gameboard.doesBoardHaveShips()) {
-        displayWinner(); // bot wins
-      }
-      resolve(true);
-      //     }, 2000);
+        if (!Gameboard.doesBoardHaveShips()) {
+          displayWinner(); // bot wins
+        }
+        resolve(true);
+      }, 2000);
     } else {
       reject(Error('Invalid player'));
     }

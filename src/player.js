@@ -1,4 +1,5 @@
 import { isSuitable } from './gameboard';
+import { audioExplosion, audioSplash } from './root';
 import { createShip } from './ship';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -116,6 +117,9 @@ export function createPlayer(id) {
     const userMoveCoordinates = this.generateRandomAIAttackCoordinates(opponentGameboard);
     if (opponentGameboard.doesAttackHitAShip(userMoveCoordinates)) {
       opponentGameboard.receiveAttack(userMoveCoordinates);
+      audioExplosion();
+    } else {
+      audioSplash();
     }
   }
 
