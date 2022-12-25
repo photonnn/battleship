@@ -120,7 +120,6 @@ export function createPlayer(id) {
     if (opponentGameboard.doesAttackHitAShip(userMoveCoordinates)) {
       opponentGameboard.receiveAttack(userMoveCoordinates);
     }
-    console.log(userMoveCoordinates);
   }
 
   return {
