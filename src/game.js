@@ -7,25 +7,22 @@ import { globalConsts } from './root';
 
 async function takeTurn(currentPlayer, Gameboard) {
   /*
-    A turn function, that is part of the game loop. Returns a promise so the chaining
-    results in a continous exchange between the user and the bot, until the condition
-    for an end is met.
+  A turn function that is part of the game loop, in an alternating turn-based system.
 
-    Args:
-    currentPlayer -> Object -> Player Factory fn
-    Gameboard -> Object -> Gameboard Factory fn
-
+  Args:
+  currentPlayer -> Object representing the current player (user/bot)
+  Gameboard -> Object representing the currentPlayer gameboard
   */
   return new Promise((resolve, reject) => {
     const botBoard = document.querySelector('.botBoard .board');
-    // let timeout;
 
     globalConsts.handleMove = (event) => {
       const coordinates = Gameboard.getCoordinates(event.target.id);
+
       if (coordinates !== false) { // coordinates are legal
         const res = Gameboard.doesAttackHitAShip(coordinates);
-        if (res) {
-          // Attacks was successful
+
+        if (res) { // Attack hits a ship
           Gameboard.receiveAttack(coordinates);
         }
         render(Gameboard, 'bot');
@@ -35,21 +32,16 @@ async function takeTurn(currentPlayer, Gameboard) {
         }
 
         botBoard.removeEventListener('click', globalConsts.handleMove);
-        // clearTimeout(timeout);
-        resolve();
+        resolve(true);
       } else {
-        // when attack isn't legal try again
-        console.log('ILLEGAL ATTACK');
-        takeTurn(currentPlayer, Gameboard);
+        // Attack fails to go through, user didn't click on a block
+        botBoard.removeEventListener('click', globalConsts.handleMove);
+        resolve(false);
       }
     };
 
     if (currentPlayer.id === 'user') {
       botBoard.addEventListener('click', globalConsts.handleMove);
-      // timeout = setTimeout(() => {
-      //  botBoard.removeEventListener('click', handleMove);
-      //  resolve();
-      // }, 100000);
     } else if (currentPlayer.id === 'bot') {
       currentPlayer.makeAIMove(Gameboard);
       render(Gameboard, 'user');
@@ -57,7 +49,7 @@ async function takeTurn(currentPlayer, Gameboard) {
       if (!Gameboard.doesBoardHaveShips()) {
         displayWinner(); // bot wins
       }
-      resolve();
+      resolve(true);
     } else {
       reject(Error('Invalid player'));
     }
@@ -65,18 +57,46 @@ async function takeTurn(currentPlayer, Gameboard) {
 }
 
 async function gameLoop(user, bot, userGameboard, botGameboard) {
-  if (!globalConsts.GAME_OVER) {
-    await takeTurn(user, botGameboard)
-      .then(() => takeTurn(bot, userGameboard))
-      .then(() => gameLoop(user, bot, userGameboard, botGameboard))
-      .catch((error) => console.error(error));
+  /*
+  Is the main game loop for a turn-based game between a player and a bot.
+  As an async function, it awaits a promise that is resolved/rejected based
+  upon the outcome of the takeTurn function.
+
+  Args:
+  user -> Object representing a player
+  bot -> Object representing a bot
+  userGameboard -> Object representing the player gameboard
+  botGameboard -> Object representing the bot gameboard
+  */
+
+  let currentPlayer = user;
+  let userMoveSucceeded = true; // We utilise a flag instead of continue statement
+  while (!globalConsts.GAME_OVER) {
+    if (userMoveSucceeded) {
+      // eslint-disable-next-line no-await-in-loop
+      const moveResult = await takeTurn(currentPlayer, currentPlayer === user
+        ? botGameboard : userGameboard);
+      userMoveSucceeded = moveResult;
+
+      if (currentPlayer === user) {
+        currentPlayer = bot;
+      } else {
+        currentPlayer = user;
+      }
+    } else {
+      userMoveSucceeded = true;
+    }
   }
-  console.log('over');
 }
 
 // eslint-disable-next-line import/prefer-default-export
 export function playGame() {
-  /* Main loop function for the game between a player and a bot */
+  /*
+  Main entry point, it sets up the game, populates the board and
+  renders the ships on the page. At the end it calls a gameLoop
+  function that starts the game.
+  */
+
   globalConsts.GAME_OVER = false;
 
   const user = player.createPlayer('user');
@@ -111,55 +131,3 @@ export function playGame() {
   // Start the game loop
   gameLoop(user, bot, userGameboard, botGameboard);
 }
-
-/* Old game loop
-export function gameLoop() {
-  /* Main loop function for the game between a bot and a bot
-  const user = player.createPlayer('user');
-  const bot = player.createPlayer('bot');
-
-  const boardSize = 20;
-
-  const userGameboard = game.createGameboard(boardSize, boardSize);
-  const botGameboard = game.createGameboard(boardSize, boardSize);
-
-  let keepRunning = true;
-  const userShips = [];
-  const botShips = [];
-
-  // populate the board
-  for (let n = 0; n < 10; n += 1) {
-    userShips.push(user.makeAIPreMove(botGameboard));
-    botShips.push(bot.makeAIPreMove(userGameboard));
-  }
-
-  // DISPLAY THE SHIPS HERE
-  displayShips(user, userShips);
-  displayShips(bot, botShips);
-
-  let i = 0; // move counter
-
-  while (keepRunning && i < 10000) {
-    // players take turns making moves
-    user.makeAIMove(botGameboard);
-
-    if (!botGameboard.doesBoardHaveShips()) {
-      displayWinner('User wins!');
-      keepRunning = false;
-    }
-
-    bot.makeAIMove(userGameboard);
-
-    if (!userGameboard.doesBoardHaveShips()) {
-      displayWinner('Bot wins');
-      keepRunning = false;
-    }
-
-    i += 1;
-  }
-  renderShips(user, botGameboard.board);
-  renderShips(bot, userGameboard.board);
-  // Game end we clean up
-  userGameboard.resetBoard();
-  botGameboard.resetBoard();
-} */
