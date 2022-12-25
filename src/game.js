@@ -5,6 +5,49 @@ import {
 } from './dom';
 import { audioExplosion, audioSplash, globalConsts } from './root';
 
+function handleMove(event, Gameboard) {
+  const coordinates = Gameboard.getCoordinates(event.target.id);
+  const botBoard = document.querySelector('.botBoard .board');
+
+  if (coordinates === false) {
+    // Attack fails to go through, user didn't click on a block
+    botBoard.removeEventListener('click', globalConsts.handleMove);
+    botBoard.style.border = '';
+    return false;
+  }
+
+  if (Gameboard.doesAttackHitAShip(coordinates)) {
+    // Attack hits a ship
+    Gameboard.receiveAttack(coordinates);
+    audioExplosion();
+  } else {
+    // Attack misses a ship
+    audioSplash();
+  }
+  render(Gameboard, 'bot');
+
+  if (!Gameboard.doesBoardHaveShips()) {
+    displayWinner(); // user wins
+  }
+
+  botBoard.style.border = '';
+  botBoard.removeEventListener('click', globalConsts.handleMove);
+  return true;
+}
+
+function botMove(currentPlayer, Gameboard) {
+  const userBoard = document.querySelector('.userBoard .board');
+
+  currentPlayer.makeAIMove(Gameboard);
+  render(Gameboard, 'user');
+
+  if (!Gameboard.doesBoardHaveShips()) {
+    displayWinner(); // bot wins
+  }
+  userBoard.style.border = '';
+  return true;
+}
+
 async function takeTurn(currentPlayer, Gameboard) {
   /*
   A turn function that is part of the game loop, in an alternating turn-based system.
@@ -17,41 +60,17 @@ async function takeTurn(currentPlayer, Gameboard) {
     const botBoard = document.querySelector('.botBoard .board');
 
     globalConsts.handleMove = (event) => {
-      const coordinates = Gameboard.getCoordinates(event.target.id);
-
-      if (coordinates !== false) { // coordinates are legal
-        if (Gameboard.doesAttackHitAShip(coordinates)) { // Attack hits a ship
-          Gameboard.receiveAttack(coordinates);
-          audioExplosion();
-        } else {
-          audioSplash();
-        }
-        render(Gameboard, 'bot');
-
-        if (!Gameboard.doesBoardHaveShips()) {
-          displayWinner(); // user wins
-        }
-
-        botBoard.removeEventListener('click', globalConsts.handleMove);
-        resolve(true);
-      } else {
-        // Attack fails to go through, user didn't click on a block
-        botBoard.removeEventListener('click', globalConsts.handleMove);
-        resolve(false);
-      }
+      resolve(handleMove(event, Gameboard));
     };
 
     if (currentPlayer.id === 'user') {
+      botBoard.style.border = 'black solid 3px';
       botBoard.addEventListener('click', globalConsts.handleMove);
     } else if (currentPlayer.id === 'bot') {
+      const userBoard = document.querySelector('.userBoard .board');
+      userBoard.style.border = 'solid black 3px';
       setTimeout(() => {
-        currentPlayer.makeAIMove(Gameboard);
-        render(Gameboard, 'user');
-
-        if (!Gameboard.doesBoardHaveShips()) {
-          displayWinner(); // bot wins
-        }
-        resolve(true);
+        resolve(botMove(currentPlayer, Gameboard));
       }, 2000);
     } else {
       reject(Error('Invalid player'));
