@@ -1,7 +1,10 @@
 import { globalConsts } from './root';
 
 export function fillBoards() {
-  /* Fill the board with necessary amount of blocks */
+  /*
+  Fills the gameboard with the necessary number of blocks.
+  This function is called once at the start of every game.
+  */
 
   const userBoard = document.querySelector('.userBoard > *');
   const botBoard = document.querySelector('.botBoard > *');
@@ -22,7 +25,11 @@ export function fillBoards() {
 }
 
 export function resetBoard() {
-  /* Reset the board */
+  /*
+  Resets the gameboards and the ship displays on the page.
+  It's called at the end of the game to reset the game to state and prepare a
+  new game.
+  */
   const elements = ['.botBoard > *', '.userBoard > *', '.botShips', '.userShips'];
   elements.forEach((selector) => {
     const element = document.querySelector(selector);
@@ -32,11 +39,17 @@ export function resetBoard() {
   });
 }
 
+// The following is only a temporary function. Ideally once
+// the game ends, a box display with more information rather
+// than just triggering the exit button and returning to the menu
 export function displayWinner() {
-  /* Renders the name of the winner at the top of the web page
+  /*
+  Dispatches a click on the exitBtn effectively ending the game.
+  It's called at the end of the game, when either the user or bot
+  have no ships remaining.
 
-    Args:
-    msg -> String -> A messega to display
+  Args:
+  msg -> String -> A messega to display
   */
 
   // const winnerDivParagraph = document.querySelector('.winner p');
@@ -47,15 +60,16 @@ export function displayWinner() {
 }
 
 function determineHtmlClass(player) {
-  /* Given the player object determine which html class to use
-    Utility function for displayShips function
+  /*
+  Determines which HTML class to use based on the provided player object.
+  Used in the displayShips function.
 
-    Args:
-    player -> Object -> Player factory fn
+  Args:
+  player -> Object representing the player
 
-    Returns:
-    htmlClass -> Str -> see above
-    */
+  Returns:
+  htmlClass -> Str -> see above
+  */
   let htmlClass;
   if (player.id === 'bot') {
     htmlClass = 'botShips';
@@ -66,11 +80,15 @@ function determineHtmlClass(player) {
 }
 
 export function displayShipsBelowBoard(player, playerShips) {
-  /* Display the ships below the game board
+  /*
+  Displays the ships of a given player below the game board.
+  This means that it creates new divs and assigns id's. It is
+  only called at the beginning of the game, later render
+  function does the rest.
 
-    Args:
-    player -> Object -> Player factory fn
-    playerShips -> Array -> Array of all ships from player arg[0]
+  Args:
+  player -> Object representing the player
+  playerShips -> Array -> Array of all ships belonging to the player
   */
   const htmlClass = determineHtmlClass(player);
 
@@ -89,19 +107,24 @@ export function displayShipsBelowBoard(player, playerShips) {
   }
 }
 
-export function initialRender(Gameboard, userID) {
-  /* Renders the ships on the board, is ran only once
+export function initialRender(Gameboard, player) {
+  /*
+  Responsible for rendering the initial state of the gamboard,
+  essentially changing the background color of all the blocks
+  that are ships.
 
   Args:
-  Gameboard -> Object -> Gameboard factory fn
-  userID -> String -> Id of the player, same prefix as gameboard */
+  Gameboard -> Object representing the gameboard of the respective player below
+  player -> String representing ID of the playe
+  */
+
   const playerBoard = Gameboard.board;
   const ignorable = [0, 1, 'sunk']; // only alternatives are the ships
 
   for (let row = 0; row < playerBoard.length; row += 1) {
     for (let col = 0; col < playerBoard[row].length; col += 1) {
       if (!ignorable.includes(playerBoard[row][col])) {
-        const block = document.getElementById(`${userID}_id_${row}_${col}`);
+        const block = document.getElementById(`${player}_id_${row}_${col}`);
         block.style.backgroundColor = '#a8a29e';
       }
     }
@@ -109,11 +132,16 @@ export function initialRender(Gameboard, userID) {
 }
 
 export function render(Gameboard, opponentID) {
-  /* Update the game state
+  /*
+  Updates the game state in the UI by adding CSS classes to the HTML
+  elements corresponding to the gameboard blocks.
+  Because the user plays on the bot's gameboard, the ID that is used
+  is then bot.
 
-    Args;
-    Gameboard -> Object -> Gameboard factory fn
-    opponentID -> String -> Id of the player, not the same prefix as gameboard
+  Args;
+  Gameboard -> Object representing the gameboard
+  opponentID -> String representing ID of the opponent player,
+    not the same prefix as gameboard
   */
   const playerBoard = Gameboard.board;
 
