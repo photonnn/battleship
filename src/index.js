@@ -5,7 +5,6 @@ import './eventListeners';
 
 // fillBoards();
 // playGame();
-
 /*
   TO DO LIST:
 
@@ -76,11 +75,11 @@ import './eventListeners';
   Also add a messege box or a timer to make a move. Sound effect for timer as well.
 
   ###### BUGS:
-  When the user repeats an attack, the AI doesn't give a fuck.
+  Ignore: When the user repeats an attack, the AI doesn't give a fuck.
 
-  For some reason when the game ends, over is printer dozens of times?
+  Done: For some reason when the game ends, over is printer dozens of times?
 
-  When an illegal attack occurs, AI breaks. This is a problem of the chain.
+  Done: When an illegal attack occurs, AI breaks. This is a problem of the chain.
 
     Harder to implement changes:
   1. Add the ability to place your own ships. Just place the ones below the board to the board.
