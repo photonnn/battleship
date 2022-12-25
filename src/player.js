@@ -1,5 +1,4 @@
 import { isSuitable } from './gameboard';
-import { globalConsts } from './root';
 import { createShip } from './ship';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -88,20 +87,18 @@ export function createPlayer(id) {
     return { x: legalAttacks[index][1], y: legalAttacks[index][0] };
   }
 
-  function makeAIPreMove(opponentGameboard) {
-    /* Combine functions to:
-      1. Create a random ship
-      2. Place the ship randomly
+  function makeAIPreMove(opponentGameboard, shipLength) {
+    /*
+    Create a ship based on parameter shipLength, and call placeAIShip function
+    to place it randomly on the board.
 
-      Args:
-      gameboard -> Object -> Gameboard factory function object
+    Args:
+    gameboard -> Object representing the gameboard
 
-      Returns:
-      newShip -> Object -> Used as an utility for displayShipsBelowBoard function
+    Returns:
+    newShip -> Ship Object -> Used as an utility for displayShipsBelowBoard function
     */
 
-    const shipLength = Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH)
-      + globalConsts.MINIMUM_SHIP_LENGTH;
     const newShip = createShip(shipLength);
     this.placeAIShip(opponentGameboard, newShip);
     return newShip;

@@ -116,8 +116,10 @@ export function playGame() {
 
   // populate the board, for now do it randomly
   for (let n = 0; n < numberOfShips; n += 1) {
-    botShips.push(bot.makeAIPreMove(botGameboard));
-    userShips.push(user.makeAIPreMove(userGameboard));
+    const shipLength = Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH)
+      + globalConsts.MINIMUM_SHIP_LENGTH;
+    botShips.push(bot.makeAIPreMove(botGameboard, shipLength));
+    userShips.push(user.makeAIPreMove(userGameboard, shipLength));
   }
 
   // Display the ships
