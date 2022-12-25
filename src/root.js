@@ -16,3 +16,17 @@ export const globalConsts = {
   SOUND: 0.5,
   handleMove: 'listener', // we keep a reference, so we can remove it
 };
+
+export const audioExplosion = () => {
+  const audio = new Audio();
+  audio.src = '../Assets/0epd6-wfoka.wav';
+  audio.volume = globalConsts.SOUND;
+  audio.play();
+};
+
+export const audioSplash = () => {
+  const audio = new Audio();
+  audio.src = '../Assets/Splash.mp3';
+  audio.volume = globalConsts.SOUND;
+  audio.play();
+};
