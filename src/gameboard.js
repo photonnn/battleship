@@ -146,9 +146,21 @@ export function createGameboard(width, height) {
       x: numbers[1],
     };
     if (Number.isInteger(+coordinates.x) && Number.isInteger(+coordinates.y)) {
-      return coordinates;
+      return {
+        y: Number(numbers[0]),
+        x: Number(numbers[1]),
+      };
     }
     return false; // in this case user likely clicked on a border or somehow glitched the game
+  }
+
+  function placeShipManually(event) {
+    /*
+    Wait for user to manually place all the ships on the board.
+
+    'This' refers to a respective div represting a ship in the userShips div.
+    */
+    console.log(event, this);
   }
 
   return {
@@ -162,5 +174,6 @@ export function createGameboard(width, height) {
     receiveAttack,
     doesAttackHitAShip,
     getCoordinates,
+    placeShipManually,
   };
 }

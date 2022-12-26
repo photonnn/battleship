@@ -14,6 +14,7 @@ export const globalConsts = {
   SHIP_DIRECTION: 'x',
   GAME_OVER: false,
   SOUND: 0.5,
+  SHIP_PLACEMENT: 'manual',
   handleMove: 'listener', // we keep a reference, so we can remove it
 };
 

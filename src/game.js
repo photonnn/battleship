@@ -4,6 +4,7 @@ import {
   displayShipsBelowBoard, displayWinner, initialRender, render,
 } from './dom';
 import { audioExplosion, audioSplash, globalConsts } from './root';
+import { createShip } from './ship';
 
 function handleMove(event, Gameboard) {
   const coordinates = Gameboard.getCoordinates(event.target.id);
@@ -112,7 +113,7 @@ async function gameLoop(user, bot, userGameboard, botGameboard) {
 }
 
 // eslint-disable-next-line import/prefer-default-export
-export function playGame() {
+export async function playGame() {
   /*
   Main entry point, it sets up the game, populates the board and
   renders the ships on the page. At the end it calls a gameLoop
@@ -133,8 +134,10 @@ export function playGame() {
   const userGameboard = game.createGameboard(boardSize, boardSize);
   const botGameboard = game.createGameboard(boardSize, boardSize);
 
-  const userShips = [];
+  /*
+  RANDOM PLACEMENT
   const botShips = [];
+  const userShips = [];
 
   // populate the board, for now do it randomly
   for (let n = 0; n < numberOfShips; n += 1) {
@@ -143,10 +146,54 @@ export function playGame() {
     botShips.push(bot.makeAIPreMove(botGameboard, shipLength));
     userShips.push(user.makeAIPreMove(userGameboard, shipLength));
   }
+  */
 
-  // Display the ships
-  displayShipsBelowBoard(user, userShips);
-  displayShipsBelowBoard(bot, botShips);
+  // STATIC PLACEMENT
+  const botShips = [];
+  if (globalConsts.SHIP_PLACEMENT === 'manual') {
+    for (let n = 0; n < numberOfShips; n += 1) {
+      const shipLength = Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH)
+        + globalConsts.MINIMUM_SHIP_LENGTH;
+      botShips.push(bot.makeAIPreMove(botGameboard, shipLength));
+    }
+    const userShips = botShips; // We still want the user have the same ships as AI
+
+    // Display the ships
+    displayShipsBelowBoard(user, userShips);
+    displayShipsBelowBoard(bot, botShips);
+
+    const userShipsElements = document.querySelectorAll('.userShips > *');
+
+    const dropZone = document.querySelector('.userBoard .board');
+
+    dropZone.addEventListener('drop', (event) => {
+      event.preventDefault(); // Prevent default behavior (e.g. open file in new tab)
+      const shipLength = event.dataTransfer.getData('text/plain');
+
+      const coordinates = userGameboard.getCoordinates(event.target.id);
+      console.log(coordinates);
+      if (coordinates !== false) {
+        const direction = globalConsts.SHIP_DIRECTION;
+        const newShip = createShip(shipLength);
+
+        userGameboard.place(newShip, coordinates, direction);
+        initialRender(userGameboard, 'user');
+      }
+    });
+
+    dropZone.addEventListener('dragover', (event) => {
+      event.preventDefault(); // Allow the drop event to occur
+    });
+
+    userShipsElements.forEach((ship) => {
+      // ship.addEventListener('mouseup', userGameboard.placeShipManually);
+      // ship.addEventListener('mouseup', console.log('xdd'));
+      ship.addEventListener('dragstart', (event) => {
+        console.log('STARTING TO DRAG');
+        event.dataTransfer.setData('text/plain', `${ship.children.length}`);
+      });
+    });
+  }
 
   // Initial Render
   initialRender(userGameboard, 'user');
