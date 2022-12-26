@@ -58,21 +58,21 @@ import './eventListeners';
 
   Done: Brilliant idea, instead of y and x use row and col. :OOOO
 
-  Add a border/shadow/outline outside the board in order to show the user that it is in fact their
+  Done: Add a border/shadow/outline outside the board in order to show the user that it is their
   turn. Add a bit of delay before the AI makes an attack to make it more intense, as well as think
   about potential sound effects.
 
   Rework the game over system. Right now the game doesn't end the to a bug, check console.
 
-  Add the Play again button, maybe even the title screen.
+  Partially done: Add the Play again button, maybe even the title screen.
   Add a local storage, a high score, or in general a high score system.
 
   Done: Add exit/back/titlescreen button to the top right of the game, as well as a settings button
         where the user can restart, change the amount of ships, sound effects and etc.
-  Look at actual real life battelships for design impressions. The idea is to have the same
+  Ignore: Look at actual real life battelships for design impressions. The idea is to have the same
   design in the game as in the deck of the captian room.
 
-  Also add a messege box or a timer to make a move. Sound effect for timer as well.
+  Ignore: Also add a messege box or a timer to make a move. Sound effect for timer as well.
 
   ###### BUGS:
   Ignore: When the user repeats an attack, the AI doesn't give a fuck.
