@@ -151,7 +151,6 @@ export function render(Gameboard, opponentID) {
   for (let row = 0; row < playerBoard.length; row += 1) {
     for (let col = 0; col < playerBoard[row].length; col += 1) {
       if (playerBoard[row][col] === 'sunk') { // Render the sunken ships and section below the board
-        console.log(`${opponentID}_${row},${col}`);
         const ship = document.getElementById(`${opponentID}_${row},${col}`);
         ship.classList.add('shipBlock');
 

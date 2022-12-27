@@ -112,6 +112,21 @@ async function gameLoop(user, bot, userGameboard, botGameboard) {
   }
 }
 
+export function drop(event, userGameboard) {
+  event.preventDefault(); // Prevent default behavior (e.g. open file in new tab)
+  const shipLength = event.dataTransfer.getData('text/plain');
+
+  const coordinates = userGameboard.getCoordinates(event.target.id);
+  console.log(coordinates);
+  if (coordinates !== false) {
+    const direction = globalConsts.SHIP_DIRECTION;
+    const newShip = createShip(shipLength);
+
+    userGameboard.place(newShip, coordinates, direction);
+    initialRender(userGameboard, 'user');
+  }
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export async function playGame() {
   /*
@@ -158,7 +173,7 @@ export async function playGame() {
     }
     const userShips = botShips; // We still want the user have the same ships as AI
 
-    // Display the ships
+    // Create and Display the ships
     displayShipsBelowBoard(user, userShips);
     displayShipsBelowBoard(bot, botShips);
 
@@ -166,38 +181,24 @@ export async function playGame() {
 
     const dropZone = document.querySelector('.userBoard .board');
 
-    dropZone.addEventListener('drop', (event) => {
-      event.preventDefault(); // Prevent default behavior (e.g. open file in new tab)
-      const shipLength = event.dataTransfer.getData('text/plain');
+    globalConsts.drop = (event) => drop(event, userGameboard);
+    globalConsts.preventDefault = (event) => event.preventDefault();
 
-      const coordinates = userGameboard.getCoordinates(event.target.id);
-      console.log(coordinates);
-      if (coordinates !== false) {
-        const direction = globalConsts.SHIP_DIRECTION;
-        const newShip = createShip(shipLength);
+    dropZone.addEventListener('drop', globalConsts.drop);
 
-        userGameboard.place(newShip, coordinates, direction);
-        initialRender(userGameboard, 'user');
-      }
-    });
-
-    dropZone.addEventListener('dragover', (event) => {
-      event.preventDefault(); // Allow the drop event to occur
-    });
+    dropZone.addEventListener('dragover', globalConsts.preventDefault);
 
     userShipsElements.forEach((ship) => {
-      // ship.addEventListener('mouseup', userGameboard.placeShipManually);
-      // ship.addEventListener('mouseup', console.log('xdd'));
       ship.addEventListener('dragstart', (event) => {
-        console.log('STARTING TO DRAG');
         event.dataTransfer.setData('text/plain', `${ship.children.length}`);
       });
     });
   }
+  globalConsts.userGameboard = userGameboard;
 
   // Initial Render
   initialRender(userGameboard, 'user');
-  initialRender(botGameboard, 'bot');
+  // initialRender(botGameboard, 'bot');
 
   // Start the game loop
   gameLoop(user, bot, userGameboard, botGameboard);

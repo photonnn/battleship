@@ -15,7 +15,10 @@ export const globalConsts = {
   GAME_OVER: false,
   SOUND: 0.5,
   SHIP_PLACEMENT: 'manual',
-  handleMove: 'listener', // we keep a reference, so we can remove it
+  // keeping a reference for removing event listners
+  handleMove: 'listener',
+  drop: 'listener',
+  preventDefault: 'listener',
 };
 
 export const audioExplosion = () => {

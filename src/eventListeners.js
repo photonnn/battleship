@@ -2,6 +2,15 @@ import { playGame } from './game';
 import { fillBoards, resetBoard } from './dom';
 import { globalConsts } from './root';
 
+function removeEventListeners() {
+  const botBoard = document.querySelector('.botBoard .board');
+  const dropZone = document.querySelector('.userBoard .board');
+
+  botBoard.removeEventListener('click', globalConsts.handleMove);
+  dropZone.removeEventListener('drop', globalConsts.drop);
+  dropZone.removeEventListener('dragover', globalConsts.preventDefault);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Buttons
   const playButton = document.getElementById('playBtn');
@@ -29,14 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
     playGame();
   }
 
-  function resetGame() {
+  function restartGame() {
     // Reset the game
     globalConsts.GAME_OVER = true;
+    removeEventListeners();
     resetBoard();
-
-    // Remove any event listeners that were added during the game
-    const botBoard = document.querySelector('.botBoard .board');
-    botBoard.removeEventListener('click', globalConsts.handleMove);
 
     fillBoards();
     playGame();
@@ -49,11 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset game but don't start new one
     globalConsts.GAME_OVER = true;
+    removeEventListeners();
     resetBoard();
-
-    // Remove any event listeners that were added during the game
-    const botBoard = document.querySelector('.botBoard .board');
-    botBoard.removeEventListener('click', globalConsts.handleMove);
   }
 
   function showOptions() {
@@ -90,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyOptions() {
     // Exit options and restart the game
     hideOptions();
-    resetGame();
+    restartGame();
   }
 
   playButton.addEventListener('click', startGame);
