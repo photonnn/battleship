@@ -81,6 +81,11 @@ import './eventListeners';
 
   Done: When an illegal attack occurs, AI breaks. This is a problem of the chain.
 
+  Done: The ID of the ships that are manually placed on the board and the ID of the ships that are
+  below the board does match, consequently the render functions break when they try to find
+  elements with respective IDs. Figure out a way to either match the IDs or a different system
+  alltogether.
+
     Harder to implement changes:
   1. Add the ability to place your own ships. Just place the ones below the board to the board.
   2. Make the AI smarter, gulp
