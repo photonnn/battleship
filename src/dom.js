@@ -151,11 +151,16 @@ export function render(Gameboard, opponentID) {
   for (let row = 0; row < playerBoard.length; row += 1) {
     for (let col = 0; col < playerBoard[row].length; col += 1) {
       if (playerBoard[row][col] === 'sunk') { // Render the sunken ships and section below the board
-        const ship = document.getElementById(`${opponentID}_${row},${col}`);
-        ship.classList.add('shipBlock');
-
         const block = document.getElementById(`${opponentID}_id_${row}_${col}`);
         block.classList.add('sunkenBlock');
+
+        if (opponentID === 'user') {
+          const ship = document.getElementById(`${block.getAttribute('shipFigureID')}`);
+          ship.classList.add('shipBlock');
+        } else {
+          const ship = document.getElementById(`${opponentID}_${row},${col}`);
+          ship.classList.add('shipBlock');
+        }
       }
       if (playerBoard[row][col] === 1) { // Render the missed attacks
         const block = document.getElementById(`${opponentID}_id_${row}_${col}`);

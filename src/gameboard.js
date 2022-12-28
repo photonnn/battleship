@@ -44,13 +44,14 @@ export function createGameboard(width, height) {
     this.board = Array(width).fill(0).map(() => Array(height).fill(0));
   }
 
-  function place(ship, coordinates, direction) {
+  function place(ship, coordinates, direction, IDs = '') {
     /* Places a ship on given coordinates in given direction if it is suitable
 
       Args:
       ship -> Object
       coordinates -> Object -> x and y property
       direction -> String -> 'X' or 'Y'
+      IDs -> Array of IDs -> Optional parameter when user is manually placing ships
     */
     if (isSuitable(this.board, ship, coordinates, direction)) {
       let shipLength = ship.length;
@@ -62,6 +63,12 @@ export function createGameboard(width, height) {
 
       while (shipLength > 0) {
         this.board[y + row][x + col] = ship;
+
+        if (IDs !== '') {
+          const block = document.getElementById(`user_id_${y + row}_${x + col}`);
+          block.setAttribute('shipFigureID', IDs.pop());
+        }
+
         ship.body.push([y + row, x + col]);
 
         if (direction === 'x') {
@@ -154,15 +161,6 @@ export function createGameboard(width, height) {
     return false; // in this case user likely clicked on a border or somehow glitched the game
   }
 
-  function placeShipManually(event) {
-    /*
-    Wait for user to manually place all the ships on the board.
-
-    'This' refers to a respective div represting a ship in the userShips div.
-    */
-    console.log(event, this);
-  }
-
   return {
     width,
     height,
@@ -174,6 +172,5 @@ export function createGameboard(width, height) {
     receiveAttack,
     doesAttackHitAShip,
     getCoordinates,
-    placeShipManually,
   };
 }
