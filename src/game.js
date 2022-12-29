@@ -1,18 +1,21 @@
 import * as player from './player';
 import * as game from './gameboard';
 import {
-  displayShipsBelowBoard, displayWinner, initialRender, render,
+  displayWinner, initialRender, render,
 } from './dom';
 import { audioExplosion, audioSplash, globalConsts } from './root';
-import { createShip } from './ship';
+import { randomPlacement, manualPlacement } from './placement';
 
-function handleMove(event, Gameboard) {
+function handleUserMove(event, Gameboard) {
+  /*
+
+  */
   const coordinates = Gameboard.getCoordinates(event.target.id);
   const botBoard = document.querySelector('.botBoard .board');
 
   if (coordinates === false) {
     // Attack fails to go through, user didn't click on a block
-    botBoard.removeEventListener('click', globalConsts.handleMove);
+    botBoard.removeEventListener('click', globalConsts.handleUserMove);
     botBoard.style.border = '';
     return false;
   }
@@ -32,20 +35,7 @@ function handleMove(event, Gameboard) {
   }
 
   botBoard.style.border = '';
-  botBoard.removeEventListener('click', globalConsts.handleMove);
-  return true;
-}
-
-function botMove(currentPlayer, Gameboard) {
-  const userBoard = document.querySelector('.userBoard .board');
-
-  currentPlayer.makeAIMove(Gameboard);
-  render(Gameboard, 'user');
-
-  if (!Gameboard.doesBoardHaveShips()) {
-    displayWinner(); // bot wins
-  }
-  userBoard.style.border = '';
+  botBoard.removeEventListener('click', globalConsts.handleUserMove);
   return true;
 }
 
@@ -60,18 +50,18 @@ async function takeTurn(currentPlayer, Gameboard) {
   return new Promise((resolve, reject) => {
     const botBoard = document.querySelector('.botBoard .board');
 
-    globalConsts.handleMove = (event) => {
-      resolve(handleMove(event, Gameboard));
+    globalConsts.handleUserMove = (event) => {
+      resolve(handleUserMove(event, Gameboard));
     };
 
     if (currentPlayer.id === 'user') {
       botBoard.style.border = 'black solid 3px';
-      botBoard.addEventListener('click', globalConsts.handleMove);
+      botBoard.addEventListener('click', globalConsts.handleUserMove);
     } else if (currentPlayer.id === 'bot') {
       const userBoard = document.querySelector('.userBoard .board');
       userBoard.style.border = 'solid black 3px';
       setTimeout(() => {
-        resolve(botMove(currentPlayer, Gameboard));
+        resolve(currentPlayer.botMove(Gameboard));
       }, 2000);
     } else {
       reject(Error('Invalid player'));
@@ -112,34 +102,6 @@ async function gameLoop(user, bot, userGameboard, botGameboard) {
   }
 }
 
-export function drop(event, userGameboard) {
-  event.preventDefault(); // Prevent default behavior (e.g. open file in new tab)
-
-  const data = event.dataTransfer.getData('text/plain');
-  const object = JSON.parse(data);
-  const shipLength = object.length;
-  const shipFiguresIDs = object.IDs;
-
-  const coordinates = userGameboard.getCoordinates(event.target.id);
-
-  if (coordinates !== false) {
-    const direction = globalConsts.SHIP_DIRECTION;
-    const newShip = createShip(shipLength);
-
-    const res = userGameboard.place(newShip, coordinates, direction, shipFiguresIDs);
-    if (res === 'legal') {
-      const elt = document.getElementById(`${shipFiguresIDs[0]}`).parentElement;
-      const children = [...elt.children];
-      children.forEach((child) => {
-        // simpler than creating new class
-        // eslint-disable-next-line no-param-reassign
-        child.style.opacity = 0.3;
-      });
-    }
-    initialRender(userGameboard, 'user');
-  }
-}
-
 // eslint-disable-next-line import/prefer-default-export
 export async function playGame() {
   /*
@@ -154,7 +116,6 @@ export async function playGame() {
   const bot = player.createPlayer('bot');
 
   const boardSize = globalConsts.BOARD_SIZE;
-  const numberOfShips = globalConsts.NUMBER_OF_SHIPS;
 
   const root = document.querySelector(':root');
   root.style.setProperty('--boardSize', `${globalConsts.BOARD_SIZE}`);
@@ -162,89 +123,19 @@ export async function playGame() {
   const userGameboard = game.createGameboard(boardSize, boardSize);
   const botGameboard = game.createGameboard(boardSize, boardSize);
 
-  /*
-  RANDOM PLACEMENT
   const botShips = [];
   const userShips = [];
-
-  // populate the board, for now do it randomly
-  for (let n = 0; n < numberOfShips; n += 1) {
-    const shipLength = Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH)
-      + globalConsts.MINIMUM_SHIP_LENGTH;
-    botShips.push(bot.makeAIPreMove(botGameboard, shipLength));
-    userShips.push(user.makeAIPreMove(userGameboard, shipLength));
-  }
-  */
-
-  // STATIC PLACEMENT
-  const botShips = [];
   if (globalConsts.SHIP_PLACEMENT === 'manual') {
-    for (let n = 0; n < numberOfShips; n += 1) {
-      const shipLength = Math.floor(Math.random() * globalConsts.MAXIMUM_SHIP_LENGTH)
-        + globalConsts.MINIMUM_SHIP_LENGTH;
-      botShips.push(bot.makeAIPreMove(botGameboard, shipLength));
-    }
-    const userShips = botShips; // We still want the user have the same ships as AI
-
-    // Create and Display the ships
-    displayShipsBelowBoard(user, userShips);
-    displayShipsBelowBoard(bot, botShips);
-
-    const userShipsElements = document.querySelectorAll('.userShips > *');
-
-    const dropZone = document.querySelector('.userBoard .board');
-
-    globalConsts.drop = (event) => drop(event, userGameboard);
-    globalConsts.preventDefault = (event) => event.preventDefault();
-
-    dropZone.addEventListener('drop', globalConsts.drop);
-
-    dropZone.addEventListener('dragover', globalConsts.preventDefault);
-
-    userShipsElements.forEach((ship) => {
-      ship.addEventListener('dragstart', (event) => {
-        let stopListening = false;
-
-        const checkIfValid = (ID) => {
-          for (let row = 0; row < globalConsts.BOARD_SIZE; row += 1) {
-            for (let col = 0; col < globalConsts.BOARD_SIZE; col += 1) {
-              const block = document.getElementById(`user_id_${row}_${col}`);
-              if (block.getAttribute('shipfigureid') === ID) {
-                return false;
-              }
-            }
-          }
-          return true;
-        };
-
-        const childNodeIDs = [];
-        // If stopListening is true no reason to keep going, so instead of forEach
-        // we use normal loop so we can break
-        // eslint-disable-next-line no-restricted-syntax
-        for (const child of event.target.childNodes) {
-          const { id } = child;
-          if (checkIfValid(id)) {
-            childNodeIDs.push(id);
-          } else {
-            stopListening = true;
-            event.preventDefault();
-            break;
-          }
-        }
-
-        if (!stopListening) {
-          event.dataTransfer.setData('test/plain', `${event.target.childNodes}`);
-          event.dataTransfer.setData('text/plain', JSON.stringify({ length: ship.children.length, IDs: childNodeIDs }));
-        }
-      });
-    });
-    globalConsts.userGameboard = userGameboard;
-
-    // Initial Render
-    initialRender(userGameboard, 'user');
-    initialRender(botGameboard, 'bot');
-
-    // Start the game loop
-    gameLoop(user, bot, userGameboard, botGameboard);
+    manualPlacement(user, bot, botShips, userGameboard, botGameboard);
+  } else {
+    randomPlacement(user, bot, userShips, botShips, userGameboard, botGameboard);
   }
+  globalConsts.userGameboard = userGameboard;
+
+  // Initial Render
+  initialRender(userGameboard, 'user');
+  initialRender(botGameboard, 'bot');
+
+  // Start the game loop
+  gameLoop(user, bot, userGameboard, botGameboard);
 }

@@ -1,6 +1,7 @@
 import { isSuitable } from './gameboard';
 import { audioExplosion, audioSplash } from './root';
 import { createShip } from './ship';
+import { render, displayWinner } from './dom';
 
 // eslint-disable-next-line import/prefer-default-export
 export function createPlayer(id) {
@@ -123,11 +124,28 @@ export function createPlayer(id) {
     }
   }
 
+  function botMove(Gameboard) {
+    /*
+    Temporariry solution
+    */
+    const userBoard = document.querySelector('.userBoard .board');
+
+    this.makeAIMove(Gameboard);
+    render(Gameboard, 'user');
+
+    if (!Gameboard.doesBoardHaveShips()) {
+      displayWinner(); // bot wins
+    }
+    userBoard.style.border = '';
+    return true;
+  }
+
   return {
     id,
     placeAIShip,
     generateRandomAIAttackCoordinates,
     makeAIPreMove,
     makeAIMove,
+    botMove,
   };
 }

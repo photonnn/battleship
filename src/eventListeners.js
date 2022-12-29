@@ -4,11 +4,15 @@ import { globalConsts } from './root';
 
 function removeEventListeners() {
   const botBoard = document.querySelector('.botBoard .board');
-  const dropZone = document.querySelector('.userBoard .board');
 
-  botBoard.removeEventListener('click', globalConsts.handleMove);
-  dropZone.removeEventListener('drop', globalConsts.drop);
-  dropZone.removeEventListener('dragover', globalConsts.preventDefault);
+  botBoard.removeEventListener('click', globalConsts.handleUserMove);
+
+  if (globalConsts.SHIP_PLACEMENT === 'manual') {
+    const dropZone = document.querySelector('.userBoard .board');
+
+    dropZone.removeEventListener('drop', globalConsts.drop);
+    dropZone.removeEventListener('dragover', globalConsts.preventDefault);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
