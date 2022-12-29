@@ -126,7 +126,16 @@ export function drop(event, userGameboard) {
     const direction = globalConsts.SHIP_DIRECTION;
     const newShip = createShip(shipLength);
 
-    userGameboard.place(newShip, coordinates, direction, shipFiguresIDs);
+    const res = userGameboard.place(newShip, coordinates, direction, shipFiguresIDs);
+    if (res === 'legal') {
+      const elt = document.getElementById(`${shipFiguresIDs[0]}`).parentElement;
+      const children = [...elt.children];
+      children.forEach((child) => {
+        // simpler than creating new class
+        // eslint-disable-next-line no-param-reassign
+        child.style.opacity = 0.3;
+      });
+    }
     initialRender(userGameboard, 'user');
   }
 }

@@ -154,11 +154,12 @@ export function render(Gameboard, opponentID) {
         const block = document.getElementById(`${opponentID}_id_${row}_${col}`);
         block.classList.add('sunkenBlock');
 
-        if (opponentID === 'user') {
-          const ship = document.getElementById(`${block.getAttribute('shipFigureID')}`);
+        let ship = '';
+        if (opponentID === 'user' && globalConsts.SHIP_PLACEMENT === 'manual') {
+          ship = document.getElementById(`${block.getAttribute('shipFigureID')}`);
           ship.classList.add('shipBlock');
         } else {
-          const ship = document.getElementById(`${opponentID}_${row},${col}`);
+          ship = document.getElementById(`${opponentID}_${row},${col}`);
           ship.classList.add('shipBlock');
         }
       }

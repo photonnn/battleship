@@ -53,6 +53,9 @@ export function createGameboard(width, height) {
       direction -> String -> 'X' or 'Y'
       IDs -> Array of IDs -> Optional parameter when user is manually placing ships
     */
+    // we cut the reference to IDs
+    const shipFigureIDs = IDs.slice();
+
     if (isSuitable(this.board, ship, coordinates, direction)) {
       let shipLength = ship.length;
       let row = 0;
@@ -64,9 +67,9 @@ export function createGameboard(width, height) {
       while (shipLength > 0) {
         this.board[y + row][x + col] = ship;
 
-        if (IDs !== '') {
+        if (shipFigureIDs !== '') {
           const block = document.getElementById(`user_id_${y + row}_${x + col}`);
-          block.setAttribute('shipFigureID', IDs.pop());
+          block.setAttribute('shipFigureID', shipFigureIDs.pop());
         }
 
         ship.body.push([y + row, x + col]);
