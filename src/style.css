@@ -296,3 +296,7 @@ header .winner p {
   background-color: black;
   border: solid grey 1px;
 }
+
+.highlightedBlock {
+  background-color: pink !important;
+}

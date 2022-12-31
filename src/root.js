@@ -17,6 +17,8 @@ export const globalConsts = {
   handleUserMove: 'listener',
   drop: 'listener',
   preventDefault: 'listener',
+  removeHighlights: 'listener',
+  highlightBlocks: 'listener',
 };
 
 export const audioExplosion = () => {

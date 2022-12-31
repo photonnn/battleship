@@ -5,6 +5,7 @@ import { isSuitable } from './gameboard';
 import { highlightBlocks, removeHighlight } from './highlight';
 
 function drop(event, userGameboard) {
+  removeHighlight(userGameboard.board);
   event.preventDefault(); // Prevent default behavior (e.g. open file in new tab)
 
   const data = event.dataTransfer.getData('text/plain');
@@ -62,12 +63,13 @@ function addListenersForDragAndDrop(userGameboard) {
 
   globalConsts.drop = (event) => drop(event, userGameboard);
   globalConsts.preventDefault = (event) => event.preventDefault();
-
-  dropZone.addEventListener('drop', globalConsts.drop);
-
-  dropZone.addEventListener('dragover', globalConsts.preventDefault);
-
-  dropZone.addEventListener('dragenter', (event) => {
+  globalConsts.removeHighlights = (event) => {
+    // for removing the highlight once the cursor leaves the user's board
+    if (event.target.id.substring(0, 4) !== 'user') {
+      removeHighlight(userGameboard.board);
+    }
+  };
+  globalConsts.highlightBlocks = (event) => {
     // event.preventDefault(); // Prevent default behavior (e.g. open file in new tab)
     const fakeShip = {
       length: shipLength, // closure :D
@@ -77,7 +79,15 @@ function addListenersForDragAndDrop(userGameboard) {
     if (isSuitable(userGameboard.board, fakeShip, coordinates, globalConsts.SHIP_DIRECTION)) {
       highlightBlocks(shipLength, coordinates, globalConsts.SHIP_DIRECTION);
     }
-  });
+  };
+
+  dropZone.addEventListener('drop', globalConsts.drop);
+
+  dropZone.addEventListener('dragover', globalConsts.preventDefault);
+
+  window.addEventListener('dragenter', globalConsts.removeHighlights);
+
+  dropZone.addEventListener('dragenter', globalConsts.highlightBlocks);
 
   userShipsElements.forEach((ship) => {
     ship.addEventListener('dragstart', (event) => {

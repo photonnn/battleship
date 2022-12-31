@@ -8,8 +8,8 @@ export function removeHighlight(userBoard) {
   for (let row = 0; row < userBoard.length; row += 1) {
     for (let col = 0; col < userBoard[row].length; col += 1) {
       const block = document.getElementById(`user_id_${row}_${col}`);
-      if (block.style.backgroundColor === 'pink') {
-        block.style.backgroundColor = 'initial';
+      if (block.classList.contains('highlightedBlock')) {
+        block.classList.remove('highlightedBlock');
       }
     }
   }
@@ -35,7 +35,7 @@ export function highlightBlocks(shipLength, coordinates, placementDirection) {
   // Then go through
   for (let i = shipLength; i > 0; i -= 1) {
     const block = document.getElementById(`user_id_${y + row}_${x + col}`);
-    block.style.backgroundColor = 'pink';
+    block.classList.add('highlightedBlock');
 
     if (placementDirection === 'x') {
       col += 1;

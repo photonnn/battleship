@@ -12,6 +12,8 @@ function removeEventListeners() {
 
     dropZone.removeEventListener('drop', globalConsts.drop);
     dropZone.removeEventListener('dragover', globalConsts.preventDefault);
+    dropZone.removeEventListener('dragenter', globalConsts.highlightBlocks);
+    window.removeEventListener('dragenter', globalConsts.removeHighlights);
   }
 }
 
