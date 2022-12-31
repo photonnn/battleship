@@ -16,7 +16,8 @@ function handleUserMove(event, Gameboard) {
   if (coordinates === false) {
     // Attack fails to go through, user didn't click on a block
     botBoard.removeEventListener('click', globalConsts.handleUserMove);
-    botBoard.style.border = '';
+    botBoard.classList.remove('focusedBoard');
+    // botBoard.style.border = '';
     return false;
   }
 
@@ -34,7 +35,8 @@ function handleUserMove(event, Gameboard) {
     displayWinner(); // user wins
   }
 
-  botBoard.style.border = '';
+  botBoard.classList.remove('focusedBoard');
+  // botBoard.style.border = '';
   botBoard.removeEventListener('click', globalConsts.handleUserMove);
   return true;
 }
@@ -55,11 +57,13 @@ async function takeTurn(currentPlayer, Gameboard) {
     };
 
     if (currentPlayer.id === 'user') {
-      botBoard.style.border = 'black solid 3px';
+      botBoard.classList.add('focusedBoard');
+      // botBoard.style.border = 'black solid 3px';
       botBoard.addEventListener('click', globalConsts.handleUserMove);
     } else if (currentPlayer.id === 'bot') {
       const userBoard = document.querySelector('.userBoard .board');
-      userBoard.style.border = 'solid black 3px';
+      userBoard.classList.add('focusedBoard');
+      // userBoard.style.border = 'solid black 3px';
       setTimeout(() => {
         resolve(currentPlayer.botMove(Gameboard));
       }, 2000);
@@ -102,7 +106,15 @@ async function gameLoop(user, bot, userGameboard, botGameboard) {
   }
 }
 
-// eslint-disable-next-line import/prefer-default-export
+export function startGame(user, bot, userGameboard, botGameboard) {
+  // Initial Render
+  initialRender(userGameboard, 'user');
+  // initialRender(botGameboard, 'bot');
+
+  // Start the game loop
+  gameLoop(user, bot, userGameboard, botGameboard);
+}
+
 export async function playGame() {
   /*
   Main entry point, it sets up the game, populates the board and
@@ -127,15 +139,25 @@ export async function playGame() {
   const userShips = [];
   if (globalConsts.SHIP_PLACEMENT === 'manual') {
     manualPlacement(user, bot, botShips, userGameboard, botGameboard);
+
+    globalConsts.startGameEvent = new CustomEvent('startGame', {
+      detail: {
+        arg1: user,
+        arg2: bot,
+        arg3: userGameboard,
+        arg4: botGameboard,
+      },
+    });
+
+    globalConsts.startGame = (event) => {
+      startGame(event.detail.arg1, event.detail.arg2, event.detail.arg3, event.detail.arg4);
+    };
+
+    document.addEventListener('startGame', globalConsts.startGame);
   } else {
     randomPlacement(user, bot, userShips, botShips, userGameboard, botGameboard);
+    // game can begin immediately because the ships already placed
+    startGame(user, bot, userGameboard, botGameboard);
   }
-  globalConsts.userGameboard = userGameboard;
-
-  // Initial Render
-  initialRender(userGameboard, 'user');
-  // initialRender(botGameboard, 'bot');
-
-  // Start the game loop
-  gameLoop(user, bot, userGameboard, botGameboard);
+  // globalConsts.userGameboard = userGameboard;
 }

@@ -4,6 +4,20 @@ import { initialRender, displayShipsBelowBoard } from './dom';
 import { isSuitable } from './gameboard';
 import { highlightBlocks, removeHighlight } from './highlight';
 
+function allFiguresPlaced() {
+  /*
+  Check if all of the figures below the board have been placed so the game can start
+  */
+  const userShipsChildren = [...document.querySelectorAll('.userShips > *')];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const child of userShipsChildren) {
+    if (child.classList.contains('unplacedFigureDiv')) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function drop(event, userGameboard) {
   removeHighlight(userGameboard.board);
   event.preventDefault(); // Prevent default behavior (e.g. open file in new tab)
@@ -15,7 +29,7 @@ function drop(event, userGameboard) {
 
   const coordinates = userGameboard.getCoordinates(event.target.id);
 
-  if (coordinates !== false) {
+  if (coordinates !== false) { // check if the coordiantes are valid
     const direction = globalConsts.SHIP_DIRECTION;
     const newShip = createShip(shipLength);
 
@@ -24,12 +38,17 @@ function drop(event, userGameboard) {
       const elt = document.getElementById(`${shipFiguresIDs[0]}`).parentElement;
       const children = [...elt.children];
       children.forEach((child) => {
-        // simpler than creating new class
         // eslint-disable-next-line no-param-reassign
-        child.style.opacity = 0.3;
+        child.classList.add('placedFigure');
+        child.parentElement.classList.remove('unplacedFigureDiv');
+        // child.style.opacity = 0.3;
       });
     }
     initialRender(userGameboard, 'user');
+
+    if (allFiguresPlaced()) {
+      document.dispatchEvent(globalConsts.startGameEvent);
+    }
   }
 }
 

@@ -19,6 +19,7 @@ export const globalConsts = {
   preventDefault: 'listener',
   removeHighlights: 'listener',
   highlightBlocks: 'listener',
+  startGame: 'listener',
 };
 
 export const audioExplosion = () => {

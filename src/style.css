@@ -300,3 +300,11 @@ header .winner p {
 .highlightedBlock {
   background-color: pink !important;
 }
+
+.placedFigure {
+  opacity: 0.3;
+}
+
+.focusedBoard {
+  border: black solid 3px;
+}

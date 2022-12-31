@@ -109,6 +109,7 @@ export function displayShipsBelowBoard(player, playerShips) {
     }
     if (player.id === 'user') {
       shipDiv.setAttribute('draggable', true);
+      shipDiv.classList.add('unplacedFigureDiv');
     }
     shipsDiv.appendChild(shipDiv);
   }

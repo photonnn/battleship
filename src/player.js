@@ -136,7 +136,7 @@ export function createPlayer(id) {
     if (!Gameboard.doesBoardHaveShips()) {
       displayWinner(); // bot wins
     }
-    userBoard.style.border = '';
+    userBoard.classList.remove('focusedBoard');
     return true;
   }
 
