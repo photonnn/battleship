@@ -100,6 +100,10 @@ export function displayShipsBelowBoard(player, playerShips) {
       const shipPartDiv = document.createElement('div');
       shipPartDiv.classList.add('shipPartDiv');
 
+      if (player.id === 'bot' || globalConsts.SHIP_PLACEMENT === 'random') {
+        shipPartDiv.style.opacity = 0.3;
+      }
+
       shipPartDiv.setAttribute('id', `${player.id}_${playerShips[row].body[col]}`);
       shipDiv.appendChild(shipPartDiv);
     }

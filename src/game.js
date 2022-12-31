@@ -134,7 +134,7 @@ export async function playGame() {
 
   // Initial Render
   initialRender(userGameboard, 'user');
-  initialRender(botGameboard, 'bot');
+  // initialRender(botGameboard, 'bot');
 
   // Start the game loop
   gameLoop(user, bot, userGameboard, botGameboard);
