@@ -1,6 +1,7 @@
 import { playGame } from './game';
 import { fillBoards, resetBoard } from './dom';
 import { globalConsts } from './root';
+import { removeHighlight } from './highlight';
 
 function removeEventListeners() {
   const botBoard = document.querySelector('.botBoard .board');
@@ -112,6 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
   optionsButton.addEventListener('click', showOptions);
   exitOptionsButton.addEventListener('click', hideOptions);
   applyOptionsButton.addEventListener('click', applyOptions);
+
+  window.addEventListener('drag', (event) => {
+    if (event.shiftKey) {
+      console.log('bbb');
+      globalConsts.SHIP_DIRECTION = globalConsts.SHIP_DIRECTION === 'x' ? 'y' : 'x';
+    }
+  });
 
   sliders.forEach((slider) => {
     slider.addEventListener('input', updateSliderSpan);
