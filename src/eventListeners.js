@@ -1,7 +1,6 @@
 import { playGame } from './game';
 import { fillBoards, resetBoard } from './dom';
 import { globalConsts } from './root';
-import { removeHighlight } from './highlight';
 
 function removeEventListeners() {
   const botBoard = document.querySelector('.botBoard .board');
@@ -115,8 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
   applyOptionsButton.addEventListener('click', applyOptions);
 
   window.addEventListener('drag', (event) => {
+    // only works while dragging aka moving the mouse, if the mouse
+    // is stationary it doesn't work, so not ideal.
     if (event.shiftKey) {
-      console.log('bbb');
       globalConsts.SHIP_DIRECTION = globalConsts.SHIP_DIRECTION === 'x' ? 'y' : 'x';
     }
   });
