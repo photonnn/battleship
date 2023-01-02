@@ -74,6 +74,11 @@ import './eventListeners';
 
   Ignore: Also add a messege box or a timer to make a move. Sound effect for timer as well.
 
+  A way to change the direction of the ship in the manual placement mode, as well as an
+  option to choose between random and manual mode.
+  Perhaps a one time setup form, that can be later changed in the settings. It only shows
+  when the user logs in for the first time.
+
   ###### BUGS:
   Ignore: When the user repeats an attack, the AI doesn't give a fuck.
 
